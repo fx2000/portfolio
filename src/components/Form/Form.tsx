@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  ChangeEvent,
-  FormEvent,
-  useRef,
-  useEffect,
-} from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import SimpleReactValidator from "simple-react-validator";
 
 /**
@@ -40,13 +34,11 @@ const ContactForm = () => {
       className: "errorMessage",
     })
   );
-  const recaptchaRef = useRef<HTMLDivElement>(null);
-  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
 
   useEffect(() => {
-    // Load reCAPTCHA script
+    // Load reCAPTCHA v3 script
     const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js`;
+    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
     script.async = true;
     document.body.appendChild(script);
 
@@ -82,17 +74,32 @@ const ContactForm = () => {
       return;
     }
 
-    if (!recaptchaToken) {
-      setSubmitStatus({
-        type: "error",
-        message: "Please complete the reCAPTCHA verification",
-      });
-      return;
-    }
-
     setLoading(true);
     try {
-      // The form will be handled by Netlify
+      // Execute reCAPTCHA v3
+      let token = "";
+      if (window.grecaptcha) {
+        if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+          throw new Error("Missing reCAPTCHA site key");
+        }
+        token = await window.grecaptcha.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          {
+            action: "submit",
+          }
+        );
+      }
+
+      // Add token to form data
+      const formData = new FormData(event.currentTarget);
+      formData.append("g-recaptcha-response", token);
+
+      // Submit the form
+      await fetch("/", {
+        method: "POST",
+        body: formData,
+      });
+
       setSubmitStatus({
         type: "success",
         message: "Message sent successfully! I will get back to you soon.",
@@ -105,11 +112,6 @@ const ContactForm = () => {
         phone: "",
         message: "",
       });
-
-      // Reset reCAPTCHA
-      if (window.grecaptcha) {
-        window.grecaptcha.reset();
-      }
     } catch (error) {
       console.error("Error sending message:", error);
       setSubmitStatus({
@@ -124,25 +126,16 @@ const ContactForm = () => {
   return (
     <form
       method="POST"
+      name="contact"
+      data-netlify="true"
       className="contact-validation-active"
       onSubmit={submitHandler}
-      netlify-honeypot="bot-field"
-      data-netlify="true"
-      name="contact"
       noValidate
       aria-label="Contact form"
     >
-      {/* Honeypot field to prevent spam */}
-      <p className="hidden">
-        <label>
-          Don&apos;t fill this out if you&apos;re human:{" "}
-          <input name="bot-field" />
-        </label>
-      </p>
-
-      {/* Netlify forms requirement */}
       <input type="hidden" name="form-name" value="contact" />
 
+      {/* Remove the visible reCAPTCHA widget - v3 is invisible */}
       <div className="row align-items-center">
         <div className="col-md-6 col-md-6 col-12">
           <div className="form-group">
@@ -199,14 +192,6 @@ const ContactForm = () => {
             />
             {validator.message("message", forms.message, "required")}
           </div>
-        </div>
-        <div className="col-md-12">
-          <div
-            ref={recaptchaRef}
-            className="g-recaptcha"
-            data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-            data-callback={(token: string) => setRecaptchaToken(token)}
-          />
         </div>
         <div className="col-md-5 order-md-1 order-2 col-12">
           <div className="submit-area">
