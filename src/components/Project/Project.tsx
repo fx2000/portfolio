@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback } from "react";
-import { Dialog, Box, DialogContent } from "@mui/material";
+import { Dialog, Box } from "@mui/material";
 import Image from "next/image";
 import { IProject } from "@/types/types";
 

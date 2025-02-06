@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-scroll";
 import MobileMenu from "@/components/MobileMenu";
 import NavLink from "next/link";
@@ -31,26 +31,12 @@ const NAVIGATION_ITEMS = [
  * @returns {JSX.Element} Rendered Header component
  */
 const Header = ({ topbarNone, hclass, logo }: HeaderProps) => {
-  const [menuActive, setMenuState] = useState<boolean>(false);
-
   /**
    * Handles click events on the logo, scrolling to the top of the page
    * @returns {void}
    */
   const handleClick = (): void => {
     window.scrollTo(10, 0);
-  };
-
-  /**
-   * Handles key down events for the menu toggle button
-   * @param event - The keyboard event
-   * @returns {void}
-   */
-  const handleKeyDown = (event: React.KeyboardEvent): void => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault(); // Prevent space from scrolling
-      setMenuState(!menuActive);
-    }
   };
 
   return (
