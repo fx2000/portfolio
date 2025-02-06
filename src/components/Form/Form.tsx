@@ -93,10 +93,13 @@ const ContactForm = () => {
       const formData = new FormData(form);
       formData.append("g-recaptcha-response", token);
 
-      // Use fetch instead of form.submit()
-      const response = await fetch("/", {
+      // Submit to Netlify's form handling endpoint
+      const response = await fetch("/.netlify/functions/submission-created", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
         body: new URLSearchParams(
           Object.fromEntries(formData) as Record<string, string>
         ).toString(),
@@ -106,17 +109,19 @@ const ContactForm = () => {
         throw new Error("Network response was not ok");
       }
 
-      setSubmitStatus({
-        type: "success",
-        message: "Message sent successfully! I will get back to you soon.",
-      });
-
+      // Reset the form and validator
       setForms({
         name: "",
         email: "",
         subject: "",
         phone: "",
         message: "",
+      });
+      validator.hideMessages();
+
+      setSubmitStatus({
+        type: "success",
+        message: "Message sent successfully! I will get back to you soon.",
       });
     } catch (error) {
       console.error("Error sending message:", error);

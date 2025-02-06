@@ -50,7 +50,7 @@ const ProjectSection = () => {
   const handleToggleShowMore = (): void => {
     setDisplayCount(moreActive ? projects.length : PROJECTS_PER_PAGE);
   };
-  console.log({ displayCount, moreActive });
+
   return (
     <section className="tp-project-section section-padding">
       <div className="container">
