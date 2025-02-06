@@ -75,30 +75,36 @@ const ContactForm = () => {
     }
 
     setLoading(true);
-    try {
-      // Execute reCAPTCHA v3
-      let token = "";
-      if (window.grecaptcha) {
-        if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-          throw new Error("Missing reCAPTCHA site key");
-        }
-        token = await window.grecaptcha.execute(
-          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-          {
-            action: "submit",
-          }
-        );
-      }
+    setSubmitStatus({
+      type: null,
+      message: "",
+    });
 
-      // Add token to form data
-      const formData = new FormData(event.currentTarget);
+    try {
+      if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        throw new Error("Missing reCAPTCHA site key");
+      }
+      const token = await window.grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+        { action: "submit" }
+      );
+
+      const form = event.target as HTMLFormElement;
+      const formData = new FormData(form);
       formData.append("g-recaptcha-response", token);
 
-      // Submit the form
-      await fetch("/", {
+      // Use fetch instead of form.submit()
+      const response = await fetch("/", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(
+          Object.fromEntries(formData) as Record<string, string>
+        ).toString(),
       });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
       setSubmitStatus({
         type: "success",
@@ -213,6 +219,7 @@ const ContactForm = () => {
             submitStatus.type === "success" ? "alert-success" : "alert-danger"
           }`}
           role="alert"
+          style={{ marginTop: "40px" }}
         >
           {submitStatus.message}
         </div>
