@@ -1,4 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useRef,
+  useEffect,
+} from "react";
 import SimpleReactValidator from "simple-react-validator";
 
 /**
@@ -34,6 +40,20 @@ const ContactForm = () => {
       className: "errorMessage",
     })
   );
+  const recaptchaRef = useRef<HTMLDivElement>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
+
+  useEffect(() => {
+    // Load reCAPTCHA script
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js`;
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   /**
    * Handles changes in form input fields
@@ -62,24 +82,17 @@ const ContactForm = () => {
       return;
     }
 
+    if (!recaptchaToken) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please complete the reCAPTCHA verification",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: forms.name,
-          email: forms.email,
-          message: forms.message,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
-
+      // The form will be handled by Netlify
       setSubmitStatus({
         type: "success",
         message: "Message sent successfully! I will get back to you soon.",
@@ -92,6 +105,11 @@ const ContactForm = () => {
         phone: "",
         message: "",
       });
+
+      // Reset reCAPTCHA
+      if (window.grecaptcha) {
+        window.grecaptcha.reset();
+      }
     } catch (error) {
       console.error("Error sending message:", error);
       setSubmitStatus({
@@ -105,12 +123,18 @@ const ContactForm = () => {
 
   return (
     <form
-      method="post"
+      method="POST"
       className="contact-validation-active"
       onSubmit={submitHandler}
+      data-netlify="true"
+      data-netlify-recaptcha="true"
+      name="contact"
       noValidate
       aria-label="Contact form"
     >
+      {/* Add hidden input for Netlify forms */}
+      <input type="hidden" name="form-name" value="contact" />
+
       <div className="row align-items-center">
         <div className="col-md-6 col-md-6 col-12">
           <div className="form-group">
@@ -167,6 +191,14 @@ const ContactForm = () => {
             />
             {validator.message("message", forms.message, "required")}
           </div>
+        </div>
+        <div className="col-md-12">
+          <div
+            ref={recaptchaRef}
+            className="g-recaptcha"
+            data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+            data-callback={(token: string) => setRecaptchaToken(token)}
+          />
         </div>
         <div className="col-md-5 order-md-1 order-2 col-12">
           <div className="submit-area">
