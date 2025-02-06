@@ -126,13 +126,21 @@ const ContactForm = () => {
       method="POST"
       className="contact-validation-active"
       onSubmit={submitHandler}
+      netlify-honeypot="bot-field"
       data-netlify="true"
-      data-netlify-recaptcha="true"
       name="contact"
       noValidate
       aria-label="Contact form"
     >
-      {/* Add hidden input for Netlify forms */}
+      {/* Honeypot field to prevent spam */}
+      <p className="hidden">
+        <label>
+          Don&apos;t fill this out if you&apos;re human:{" "}
+          <input name="bot-field" />
+        </label>
+      </p>
+
+      {/* Netlify forms requirement */}
       <input type="hidden" name="form-name" value="contact" />
 
       <div className="row align-items-center">
