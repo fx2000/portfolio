@@ -75,11 +75,6 @@ const ContactForm = () => {
     }
 
     setLoading(true);
-    setSubmitStatus({
-      type: null,
-      message: "",
-    });
-
     try {
       if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
         throw new Error("Missing reCAPTCHA site key");
@@ -89,47 +84,22 @@ const ContactForm = () => {
         { action: "submit" }
       );
 
+      // Get the form and add the reCAPTCHA token
       const form = event.target as HTMLFormElement;
-      const formData = new FormData(form);
-      formData.append("g-recaptcha-response", token);
+      const tokenInput = document.createElement("input");
+      tokenInput.type = "hidden";
+      tokenInput.name = "g-recaptcha-response";
+      tokenInput.value = token;
+      form.appendChild(tokenInput);
 
-      // Submit to Netlify's form handling endpoint
-      const response = await fetch("/.netlify/functions/submission-created", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json",
-        },
-        body: new URLSearchParams(
-          Object.fromEntries(formData) as Record<string, string>
-        ).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // Reset the form and validator
-      setForms({
-        name: "",
-        email: "",
-        subject: "",
-        phone: "",
-        message: "",
-      });
-      validator.hideMessages();
-
-      setSubmitStatus({
-        type: "success",
-        message: "Message sent successfully! I will get back to you soon.",
-      });
+      // Submit the form naturally
+      form.submit();
     } catch (error) {
       console.error("Error sending message:", error);
       setSubmitStatus({
         type: "error",
         message: "Failed to send message. Please try again later.",
       });
-    } finally {
       setLoading(false);
     }
   };
