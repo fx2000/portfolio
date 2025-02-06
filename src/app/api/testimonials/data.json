@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Andrew Babaian",
+    "position": "Senior Vice President, Experience Technology",
+    "company": "Hero Digital",
+    "description": "I had the pleasure of working with Daniel on multiple occasions at Hero Digital. I always found him to be a thoughtful, engaging, and open-minded individual focused on delivering solutions to meet complex requirements and satisfy our clients. Daniel is always ready for any type of engagement, dedicated to building accessible frontend architectures that are delivered bug-free and on time. Some projects are complex due to our client interactions, and sometimes complexity arises from specific project requirements. Daniel has been successful in both scenarios, supporting teams as a lead engineer and working directly with clients with aplomb."
+  },
+  {
+    "id": 2,
+    "name": "Sean McAuliffe",
+    "position": "Director, Experience Technology",
+    "company": "Hero Digital",
+    "description": "I had the great pleasure of working alongside Daniel at HERO Digital LLC. Although I did not work with him directly, I saw first hand how critical his contributions to projects were and the way his work elevated everyone around him. I am still referencing code, patterns and solutions that Daniel was directly responsible for here at HERO and building on top of his excellent contributions. I can strongly recommend Daniel to any tech organization looking for a top-notch leader, skilled developer and natural mentor. Any client and/or team that works with Daniel will benefit."
+  },
+  {
+    "id": 3,
+    "name": "Julian Gibellino",
+    "position": "Director, Experience Technology",
+    "company": "Hero Digital",
+    "description": "Daniel is a highly skilled frontend engineer and manager. I had the privilege of collaborating with him on various web applications, spanning from CMS integrations involving standard HTML/CSS/JS to complex applications using Next.js and React Native. He consistently demonstrates his ability to develop rich user interfaces and implement solutions for intricate business logic. This is achieved through his dedication to best practices, commitment to meeting accessibility standards, and focus on optimizing performance to deliver a polished product. What sets Daniel apart is his eagerness to learn new technologies, as well as his adaptability to taking on new challenges."
+  },
+  {
+    "id": 4,
+    "name": "Nigel Warson-Hill",
+    "position": "Director, Experience Technology",
+    "company": "Hero Digital",
+    "description": "Through his diligent approach to work, excellent communication skills, and ability to rapidly adapt to the needs of his peers and active projects, Daniel is without doubt one of the best Developers and team mates I have worked with. It was no surprise to me that within just a year of Daniel joining Hero Digital as a Senior Developer he was promoted to Engineering Manager. This increased level of trust and responsibility was earned by delivering exceptional work time and time again, and by helping to shape processes and project deliverables above and beyond expectations. I hope I am lucky enough to work with Daniel again in the future and wholeheartedly recommend him to any team looking to increase their chance of success."
+  },
+  {
+    "id": 5,
+    "name": "Cristiano Amici",
+    "position": "Engineering Manager",
+    "company": "Hero Digital",
+    "description": "I had the luck of collaborating with Daniel on a project for Medtronic, where he swiftly onboarded on a fast-moving product and made an immediate impact by taking ownership of critical features. His experience and adaptability helped us hit a pressing timeline and deliver with great success. Daniel is a passionate manager and developer, with a keen interest in sharing his knowledge, mentoring his team, and direct reports. His experience working with cross-disciplinary teams shone through his work, and I very much enjoyed our work together. I'd be more than happy to work again with him, should the opportunity arise."
+  },
+  {
+    "id": 6,
+    "name": "Eugene Kim",
+    "position": "AI Engineer",
+    "company": "Cranium",
+    "description": "Daniel, thank you so much for all the work you've done. You were always exceeding my expectations, you've made huge changes to our FE code that will help enable us to do better work in the future. Once again, THANK YOU."
+  }
+]
