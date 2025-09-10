@@ -114,7 +114,14 @@ const Project = ({ maxWidth, open, onClose, project }: ProjectProps) => {
                                 </li>
                               )}
                               <li>
-                                Link:<span>{url}</span>
+                                Link:&nbsp;
+                                <a
+                                  href={url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {url}
+                                </a>
                               </li>
                             </ul>
                           </div>

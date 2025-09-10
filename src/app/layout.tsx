@@ -30,19 +30,19 @@ export const metadata: Metadata = {
       },
       {
         rel: "apple-touch-icon",
-        sizes: "180x180",
+        sizes: "100x100",
         url: "/apple-touch-icon.png",
       },
       {
         rel: "icon",
         type: "image/png",
-        sizes: "192x192",
+        sizes: "100x100",
         url: "/android-chrome-192x192.png",
       },
       {
         rel: "icon",
         type: "image/png",
-        sizes: "512x512",
+        sizes: "100x100",
         url: "/android-chrome-512x512.png",
       },
     ],
