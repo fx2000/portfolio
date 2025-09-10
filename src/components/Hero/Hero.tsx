@@ -1,10 +1,10 @@
 import React from "react";
 import NavLink from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { Link } from "react-scroll";
 import { ISocialLink } from "@/types/types";
 
-const himg = "/images/headshot.png";
+// const himg = "/images/headshot.png";
 
 /**
  * Social media links configuration
