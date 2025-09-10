@@ -73,7 +73,7 @@ const Hero = () => {
 
       <div className="right-vec" aria-hidden="true">
         <div className="right-img">
-          <Image
+          {/* <Image
             src={himg}
             alt="Professional headshot of Daniel Duque"
             width={687}
@@ -83,7 +83,7 @@ const Hero = () => {
               minHeight: "959px",
               minWidth: "790px",
             }}
-          />
+          /> */}
         </div>
       </div>
 
