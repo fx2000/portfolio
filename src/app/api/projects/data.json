@@ -1,6 +1,61 @@
 [
   {
+    "id": 0,
+    "title": "Topsort",
+    "description": "Topsort's mission is to democratize world-class auction and AI-based monetization technology that giants in Silicon Valley have been using as a profit engine into the wider ecosystem of e-commerce. We are doing so with a high regard for privacy and treating product information as the center of advertising instead of user information. Our aim is to build friendly products that make advertisers, consumers, agencies, brands, marketplaces, and retailers all feel empowered and delighted.",
+    "contributions": "Aside from managing a team of senior engineers, during my time at Topsort I led projects like the migration of Pages to App router, a Campaign Performance Forecasting tool, an AI assistant chatbot, a thorough audit of th application's responsiveness and performance, the refactoring of the deployment pipeline and preview environments from Vercel to AWS, and numerous improvements to Internationalization and Localization.",
+    "technologies": [
+      "Typescript",
+      "React",
+      "NextJS",
+      "OpenAPI",
+      "oRPC",
+      "React-Query",
+      "AWS",
+      "Github Actions"
+    ],
+    "company": "Topsort",
+    "about": "I joined Topsort as a Technical Lead for the Retailer Experience Team. I was in charge of a team of senior engineers, and was responsible for the architecture and development of the Auction Manager, Topsort's client facing application, which was built using React, NextJS, and the Topsort Private APIs.",
+    "client": "Topsort",
+    "role": "Technical Lead - Retailer Experience Team",
+    "pImg": "/images/projects/topsort/homepage.png",
+    "pImgAlt": "Topsort Auction Manager",
+    "psub1img1": "/images/projects/topsort/psub1img1.png",
+    "psub1img1Alt": "Dashboard",
+    "psub1img2": "/images/projects/topsort/psub1img2.png",
+    "psub1img2Alt": "",
+    "url": "https://www.topsort.com",
+    "type": "company"
+  },
+  {
     "id": 1,
+    "title": "Convene",
+    "description": "Convene is a global hospitality company that manages a growing portfolio of lifestyle brands focused on revolutionizing the way people meet, work, and gather. It creates hospitality-driven experiences and uniquely designed destinations across its various brands with the singular mission of fostering human-to-human connection.",
+    "contributions": "I joined the Convene project as a Senior Engineer in charge of migrating the current site from Wordpress to PayloadCMS. I was responsible for building a large part of the new site's reusable component library, like text blocks, buttons, and responsive image containers. In addition to that, I built numerous components used throughout the site, like carousels, accordions, responsive image containers, and video players. I was also in charge of integration with external APIs like Google Places and Hotelmap.",
+    "technologies": [
+      "Typescript",
+      "React",
+      "NextJS",
+      "HTML",
+      "CSS",
+      "PayloadCMS",
+      "Google Places API"
+    ],
+    "company": "Engineer Access",
+    "about": "Engineer Access was contracted by Convene to modernize their legacy site from Wordpress to PayloadCMS. The new website was built using React, NextJS, and PayloadCMS.",
+    "client": "Convene",
+    "role": "Senior Engineer - Experience Technology",
+    "pImg": "/images/projects/convene/homepage.png",
+    "pImgAlt": "Convene Homepage",
+    "psub1img1": "/images/projects/convene/psub1img1.png",
+    "psub1img1Alt": "PayloadCMS",
+    "psub1img2": "/images/projects/convene/psub1img2.png",
+    "psub1img2Alt": "Layout Creation",
+    "url": "https://www.convene.com",
+    "type": "agency"
+  },
+  {
+    "id": 2,
     "title": "Aramark",
     "description": "Aramark is an American food service and facilities services provider to clients in areas including education, prisons, healthcare, business, and leisure. It operates in North America (United States and Canada) and an additional 14 countries, including the United Kingdom, Germany, Chile, Ireland, and Spain. The company is headquartered in Center City, Philadelphia, Pennsylvania. Aramark's revenues totaled US $18.854 billion in 2023, and the company was listed as the 21st largest employer on the Fortune 500.",
     "contributions": "I joined the Aramark project as a Senior Engineer with the Experience Technology team. I was responsible for building a large part of the site's reusable component library, like text blocks, buttons, and responsive image containers. In addition to that, I built numerous components used throughout the site, like carousels, accordions, video players, the main mega menu, and the animated Hero component. I was also in charge of creating a form building engine using react-hook-form and the integration of all forms in the site with Aramark's Salesforce CRM.",
@@ -26,7 +81,7 @@
     "type": "agency"
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Masonite",
     "description": "Masonite International Corporation is a designer, manufacturer and distributor of interior and exterior doors for the new construction and repair, renovation and remodeling sectors of the residential and non-residential building construction markets. Founded in 1925 in Laurel, Mississippi, it currently serves approximately customers in 60 countries and is headquartered in Tampa, Florida.",
     "contributions": "I joined the Masonite project as a Senior Engineer with the Experience Technology team. I was responsible for building a large part of the site's reusable component library, like text blocks, buttons, and responsive image containers. In addition to that, I built numerous components used throughout the site, like carousels, accordions, responsive image containers, and video players. I was also in charge of creating a complex Door visualization tool with advanced filtering options built using XState, that allowed the user to browse through the company's door catalog, and the Where to Buy tool, using the Google Maps API, with advanced filtering and search capabilities.",
@@ -53,7 +108,7 @@
     "type": "agency"
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "LPGA",
     "description": "The Ladies Professional Golf Association (LPGA) is an American organization for female golfers. The organization is headquartered at LPGA International in Daytona Beach, Florida, and is best known for running the LPGA Tour, a series of weekly golf tournaments for elite women professional golfers from around the world.",
     "contributions": "I joined the LPGA project as an Engineering Manager with the Experience Technology team. I was part of the original architecture work and designed a custom CMS for the project, which was able to run on both web and mobile platforms using Solito and the Tamagui UI library. I was also in charge of building reusable components for the website, like the athlete's hero page, and of supervising and leading the team of frontend engineers working on the project.",
@@ -76,7 +131,7 @@
     "type": "agency"
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Atlantic Health Systems",
     "description": "Atlantic Health System is one of the largest non-profit health care networks in New Jersey. It employs 18,000 people and more than 4,800 affiliated physicians. The system offers more than 400 sites of care, including six hospitals: Chilton Medical Center, Goryeb Children’s Hospital, Hackettstown Medical Center, Morristown Medical Center, Newton Medical Center and Overlook Medical Center.",
     "contributions": "I joined the Atlantic Health Systems project as a Senior Engineer with the Experience Technology team. I was responsible for building a large part of the site's reusable component library, like text blocks, buttons, and responsive image containers. In addition to that, I built numerous components used throughout the site, like carousels, accordions, responsive image containers, and video players. I was also in charge of creating complex Find a Doctor and Find a Location tools, using the Google Maps API and the Coveo search engine.",
@@ -103,7 +158,7 @@
     "type": "agency"
   },
   {
-    "id": 7,
+    "id": 6,
     "title": "niikiis",
     "description": "niikiis is the all-in-one HR software that streamlines time tracking and time off management with a time clock feature that provides the best employee experience. Empower your workforce with self-service time management clocking in and out from any place and device. Manage shifts and time by projects, track overtime, and configure and classify breaks with comments. Track employees’ location either on-site or remote with the golocalization integration.",
     "contributions": "During my time at niikiis I built numerous components and sections of the application, including most of the font page, chat service, reporting engine, social feed, shift tracking engine, and micro learning animated video player using AWS Polly and Lottie animations. I was also in charge of mentoring junior team members, and building a mobile solution for attendance tracking, using React Native and Expo, this solution used the company's own API to fetch employeedata, the device's GPS to track the employee's location, and the device's camera for face detection using Tensorflow and AWS Rekognition.",
@@ -138,7 +193,7 @@
     "type": "company"
   },
   {
-    "id": 8,
+    "id": 7,
     "title": "Magic",
     "description": "A Y Combinator backed company, Magic is a leading modern outsourcing platform that connects SMBs to high-quality remote workers, from SDRs to virtual assistants and more. With roots in Silicon Valley, and backing from top venture capitalists, its workers are supercharged with a combination of the latest AI technology and training.",
     "contributions": "As part of the Labs team, I built a new phone call integration for the company's AI-powered agent, which allowed the model to place phone calls to schedule appointments and services with real-life people and business that lacked an API that would allow them to be scheduled through the Magic platform. This integration was built using GPT, the Twilio API, and a text-to-speech and speech-to-text engine to feed data to the model. The vertical was integrated to the model and other verticals using Autogen and the model was trained to follow a script during the call, with the ability to handle basic questions and tasks, and improvise when needed or when being forced to go off script and handle unexpected situations. I also built an additional vertical that allowed the model to order presents from an online store by connecting to the store's API, this allowed a Magic user to order a present for a friend or family member, and have it delivered to their door.",
@@ -166,7 +221,7 @@
     }
   },
   {
-    "id": 5,
+    "id": 8,
     "title": "Sprouts Farmers Market",
     "description": "Sprouts Farmers Market, Inc., is a supermarket chain headquartered in Phoenix, Arizona. The grocer offers a wide selection of natural and organic foods, including fresh produce, bulk foods, vitamins and supplements, packaged groceries, meat, poultry, seafood, deli, baked goods, dairy products, frozen foods, natural body care, and household items. Sprouts employs 35,000 workers and operates more than 400 stores in 23 states.",
     "contributions": "I joined the Sprouts project as an Engineering Manager with the Experience Technology team. I was responsible for building part of the new user interface for the website, fixing existing integration issues with third party libraries and providers, handling technical communication with the client, and supervising a team of external contractors.",
@@ -186,7 +241,7 @@
     "type": "agency"
   },
   {
-    "id": 6,
+    "id": 9,
     "title": "Novick Corporation",
     "description": "Novick Corporation is a global leader in transportation, distribution, and delivery serfvices for the foodservice industry. They are headquartered in Philadelphia, and service 11 states across the northeast coast of the United States.",
     "contributions": "I joined the Novick project as a Senior Engineer with the Experience Technology team. I was responsible for building the frontend of the application from the ground up, using NextJS, React, and the Material UI library. The application uses SSO for authentication with Azure AD through a custom MSAL middleware, zustand for state management, react-query for data fetching, and supports dragging and dropping of meals and recipes.",
@@ -217,7 +272,7 @@
     "type": "agency"
   },
   {
-    "id": 9,
+    "id": 10,
     "title": "Cranium",
     "description": "Born from KPMG Studio, Cranium is the leading AI governance software provider, enabling organizations to drive security, compliance, and trust across their AI and GenAI systems.",
     "contributions": "I joined the Cranium project as a Senior Engineer with the objective of helping them improve their application's user experience. I was responsible for migrating state management from Redux to Zustand, implementing react-query for API communications, updating the application's React version to the latest stable version, and for improving the application's overall design and accessibility.",
@@ -238,7 +293,7 @@
     "type": "agency"
   },
   {
-    "id": 10,
+    "id": 11,
     "title": "Prevu",
     "description": "A modern, full-service brokerage and real estate firm, Prevu ranks as the No. 34 fastest growing company in the real estate industry on the Inc. 5000 List. It is on a mission to empower homebuyers and their differentiated, tech-driven approach makes the real estate buying process seamless and more affordable.",
     "contributions": "I joined Prevu's Engineering team as a Senior Engineer to work on improving their application's frontend. This included migrating state management from Redux to React's Context API, implementing react-query for API communications, and rebuilding numerous pages and components to match updated design patterns.",
@@ -260,7 +315,7 @@
     "type": "agency"
   },
   {
-    "id": 11,
+    "id": 12,
     "title": "Prosprice Generator",
     "description": "The power to price on the spot. Use the barcode scanner to cost out the job - Your suggested retail selling price will instantly appear on the screen. Within seconds, you can now communicate your estimates with your customers & even email their invoice for payment processing.",
     "contributions": "I joined the Prosprice project as a Senior Engineer in charge of building this new mobile application. This application was built using React Native, running on the Expo platform in both iOS and Android, offers a barcode scanner to to scan items and cost out the job using an integration with the BigBox API. It also allows the user to communicate the estimate with the customer and send them an invoice for payment.",

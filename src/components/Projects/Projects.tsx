@@ -1,10 +1,10 @@
 import Image from "next/image";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Project } from "@/components/Project";
 import { IProject } from "@/types/types";
 import { useGetProjects } from "@/hooks";
 
-const PROJECTS_PER_PAGE = 6;
+const PROJECTS_PER_PAGE = 15;
 
 /**
  * ProjectSection Component
@@ -18,12 +18,6 @@ const ProjectSection = () => {
 
   // Get projects from the API
   const { data: projects = [] } = useGetProjects();
-
-  // Determine if the Show More button should be shown
-  const moreActive = useMemo(
-    () => displayCount < projects.length,
-    [displayCount, projects]
-  );
 
   /**
    * Handles closing the project modal
@@ -48,7 +42,9 @@ const ProjectSection = () => {
    * @returns {void}
    */
   const handleToggleShowMore = (): void => {
-    setDisplayCount(moreActive ? projects.length : PROJECTS_PER_PAGE);
+    setDisplayCount(
+      displayCount < projects.length ? projects.length : PROJECTS_PER_PAGE
+    );
   };
 
   return (
@@ -90,11 +86,13 @@ const ProjectSection = () => {
               </div>
             ))}
           </div>
-          <div className={`project-btn`}>
-            <button className="theme-btn" onClick={handleToggleShowMore}>
-              View {moreActive ? "more" : "less"}...
-            </button>
-          </div>
+          {displayCount < projects.length && (
+            <div className={`project-btn`}>
+              <button className="theme-btn" onClick={handleToggleShowMore}>
+                View more...
+              </button>
+            </div>
+          )}
         </div>
       </div>
       {activeProject && (

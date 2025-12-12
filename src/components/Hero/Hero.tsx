@@ -1,10 +1,10 @@
 import React from "react";
 import NavLink from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { Link } from "react-scroll";
 import { ISocialLink } from "@/types/types";
 
-const himg = "/images/headshot.png";
+// const himg = "/images/headshot.png";
 
 /**
  * Social media links configuration
@@ -35,7 +35,7 @@ const Hero = () => {
           <div className="col col-xs-7 col-lg-7">
             <div className="tp-hero-section-text">
               <div className="tp-hero-title">
-                <h1>Full Stack Developer</h1>
+                <h1>Full Stack Developer and Engineering Leader</h1>
               </div>
               <div className="tp-hero-sub">
                 <p>Daniel Duque</p>
@@ -73,7 +73,7 @@ const Hero = () => {
 
       <div className="right-vec" aria-hidden="true">
         <div className="right-img">
-          <Image
+          {/* <Image
             src={himg}
             alt="Professional headshot of Daniel Duque"
             width={687}
@@ -83,7 +83,7 @@ const Hero = () => {
               minHeight: "959px",
               minWidth: "790px",
             }}
-          />
+          /> */}
         </div>
       </div>
 

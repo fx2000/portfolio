@@ -152,76 +152,78 @@ const ContactForm = () => {
         {/* Required hidden input */}
         <input type="hidden" name="form-name" value="contact" />
 
-        <div className="row align-items-center">
-          <div className="col-md-6 col-md-6 col-12">
-            <div className="form-group">
-              <label htmlFor="name">Name*</label>
-              <input
-                id="name"
-                value={forms.name}
-                type="text"
-                name="name"
-                onBlur={changeHandler}
-                onChange={changeHandler}
-                className="form-control"
-                placeholder="Who are you?"
-                required
-                aria-required="true"
-                aria-invalid={!validator.fieldValid("name")}
-              />
-              {validator.message("name", forms.name, "required|alpha_space")}
+        {submitStatus.type !== "success" && (
+          <div className="row align-items-center">
+            <div className="col-md-6 col-md-6 col-12">
+              <div className="form-group">
+                <label htmlFor="name">Name*</label>
+                <input
+                  id="name"
+                  value={forms.name}
+                  type="text"
+                  name="name"
+                  onBlur={changeHandler}
+                  onChange={changeHandler}
+                  className="form-control"
+                  placeholder="Who are you?"
+                  required
+                  aria-required="true"
+                  aria-invalid={!validator.fieldValid("name")}
+                />
+                {validator.message("name", forms.name, "required|alpha_space")}
+              </div>
+            </div>
+            <div className="col-md-6 col-md-6 col-12">
+              <div className="form-group">
+                <label htmlFor="email">Email*</label>
+                <input
+                  id="email"
+                  value={forms.email}
+                  type="email"
+                  name="email"
+                  onBlur={changeHandler}
+                  onChange={changeHandler}
+                  className="form-control"
+                  placeholder="How can I get in touch with you?"
+                  required
+                  aria-required="true"
+                  aria-invalid={!validator.fieldValid("email")}
+                />
+                {validator.message("email", forms.email, "required|email")}
+              </div>
+            </div>
+            <div className="col-md-12">
+              <div className="fullwidth form-group">
+                <label htmlFor="message">Message*</label>
+                <textarea
+                  id="message"
+                  onBlur={changeHandler}
+                  onChange={changeHandler}
+                  value={forms.message}
+                  name="message"
+                  className="form-control"
+                  placeholder="How can I help?"
+                  required
+                  aria-required="true"
+                  aria-invalid={!validator.fieldValid("message")}
+                />
+                {validator.message("message", forms.message, "required")}
+              </div>
+            </div>
+            <div className="col-md-5 order-md-1 order-2 col-12">
+              <div className="submit-area">
+                <button
+                  type="submit"
+                  className="theme-btn"
+                  disabled={loading}
+                  aria-label={loading ? "Sending..." : "Submit form"}
+                >
+                  {loading ? "Sending..." : "Send"}
+                </button>
+              </div>
             </div>
           </div>
-          <div className="col-md-6 col-md-6 col-12">
-            <div className="form-group">
-              <label htmlFor="email">Email*</label>
-              <input
-                id="email"
-                value={forms.email}
-                type="email"
-                name="email"
-                onBlur={changeHandler}
-                onChange={changeHandler}
-                className="form-control"
-                placeholder="How can I get in touch with you?"
-                required
-                aria-required="true"
-                aria-invalid={!validator.fieldValid("email")}
-              />
-              {validator.message("email", forms.email, "required|email")}
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="fullwidth form-group">
-              <label htmlFor="message">Message*</label>
-              <textarea
-                id="message"
-                onBlur={changeHandler}
-                onChange={changeHandler}
-                value={forms.message}
-                name="message"
-                className="form-control"
-                placeholder="How can I help?"
-                required
-                aria-required="true"
-                aria-invalid={!validator.fieldValid("message")}
-              />
-              {validator.message("message", forms.message, "required")}
-            </div>
-          </div>
-          <div className="col-md-5 order-md-1 order-2 col-12">
-            <div className="submit-area">
-              <button
-                type="submit"
-                className="theme-btn"
-                disabled={loading}
-                aria-label={loading ? "Sending..." : "Submit form"}
-              >
-                {loading ? "Sending..." : "Send"}
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
 
         {submitStatus.type && (
           <div
