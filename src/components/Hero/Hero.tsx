@@ -35,7 +35,7 @@ const Hero = () => {
           <div className="col col-xs-7 col-lg-7">
             <div className="tp-hero-section-text">
               <div className="tp-hero-title">
-                <h1>Full Stack Developer and Engineering Leader</h1>
+                <h1>Technical Lead and Senior Full-Stack Engineer</h1>
               </div>
               <div className="tp-hero-sub">
                 <p>Daniel Duque</p>
@@ -105,7 +105,7 @@ const Hero = () => {
       </nav>
 
       <div className="visible-text" aria-hidden="true">
-        <h2>Developer</h2>
+        <h2>Engineer</h2>
       </div>
     </section>
   );

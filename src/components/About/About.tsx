@@ -55,7 +55,8 @@ const About = () => {
                 <header>
                   <small aria-hidden="true">About Me</small>
                   <h2 id="about-heading">
-                    I&apos;m Daniel and I&apos;m a software engineer
+                    I&apos;m Daniel and I&apos;m a Technical Lead and Senior
+                    Full-Stack Engineer
                   </h2>
                   <p className="lead">
                     I have over 15 years of experience in the software and web
@@ -64,17 +65,17 @@ const About = () => {
                 </header>
 
                 <p>
-                  I&apos;ve held roles like Founder, Engineering Manager,
-                  Technical Lead, and Full-Stack Senior Engineer. I excel in
-                  Typescript and JavaScript technologies and have ample
-                  experience in front-end solutions like React, Next and React
-                  Native; in back-end solutions like Node, MongoDB, MySQL, and
-                  APIs using REST and GraphQL; and in cloud platforms like AWS
-                  (Lambda, DynamoDB, Amplify). <br />I care greatly for design,
-                  accessibility and responsiveness, have extensive independent
-                  freelancing and contracting experience with multiple projects
-                  delivered successfully, and hold certifications as a
-                  Professional Scrum Master and Scrum Developer.
+                  Driving architecture, delivery, and evolution
+                  of scalable platforms and internal tooling across startups, AI
+                  labs, and enterprise environments. Focused on TypeScript,
+                  Next.js, Node.js, Python, FastAPI, and AWS, with strong
+                  experience building AI-driven products using
+                  retrieval-augmented generation and LLM integrations. Known for
+                  shaping architectural direction, improving engineering
+                  velocity, and shipping production-ready systems that connect
+                  user-facing applications with scalable backend platforms,
+                  while mentoring engineers and aligning technical decisions
+                  with product and business goals.
                 </p>
 
                 {/*                 <div className="tf-funfact" role="list">
