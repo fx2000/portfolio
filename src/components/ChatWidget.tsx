@@ -229,7 +229,7 @@ export default function ChatWidget() {
               />
               <div>
                 <p className="text-sm font-medium text-[#f5f5f5] leading-none">
-                  Ask about Daniel
+                  AI Daniel is here to help you
                 </p>
                 <p className="text-[10px] text-[#888888] mt-0.5">
                   Powered by Gemini 2.0 Flash
@@ -310,7 +310,7 @@ export default function ChatWidget() {
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask anything about Daniel…"
+                placeholder="Ask me anything..."
                 rows={1}
                 className="flex-1 bg-transparent text-sm text-[#f5f5f5] placeholder-[#555555] resize-none outline-none leading-relaxed min-h-[24px]"
                 style={{ maxHeight: "120px" }}
