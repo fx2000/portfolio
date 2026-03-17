@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,7 +11,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hey! I'm here to answer any questions about Daniel's experience, projects, or skills. What would you like to know?",
+    "Hey! I'm Daniel — feel free to ask me anything about my experience, projects, or skills.",
 };
 
 /** Maximum number of messages kept in the conversation context sent to the API */
@@ -199,6 +200,12 @@ export default function ChatWidget() {
         .chat-panel-enter {
           animation: chat-panel-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        .chat-markdown p { margin: 0; }
+        .chat-markdown p + p { margin-top: 0.5rem; }
+        .chat-markdown ul, .chat-markdown ol { margin: 0.35rem 0; padding-left: 1.25rem; }
+        .chat-markdown li { margin: 0.15rem 0; }
+        .chat-markdown code { background: #1e1e1e; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
+        .chat-markdown strong { font-weight: 600; }
       `}</style>
 
       {/* Chat panel */}
@@ -246,13 +253,32 @@ export default function ChatWidget() {
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                  className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-[#e5540a] text-white rounded-br-sm"
-                      : "bg-[#141414] text-[#f5f5f5] rounded-bl-sm border border-[#1a1a1a]"
+                      ? "bg-[#e5540a] text-white rounded-br-sm whitespace-pre-wrap"
+                      : "bg-[#141414] text-[#f5f5f5] rounded-bl-sm border border-[#1a1a1a] chat-markdown"
                   }`}
                 >
-                  {msg.content}
+                  {msg.role === "assistant" ? (
+                    <ReactMarkdown
+                      components={{
+                        a: ({ href, children }) => (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#ff8c42] underline underline-offset-2 hover:text-[#ffae70] transition-colors"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  ) : (
+                    msg.content
+                  )}
                 </div>
               </div>
             ))}
