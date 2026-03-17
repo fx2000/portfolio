@@ -232,7 +232,7 @@ export default function ChatWidget() {
                   AI Daniel is here to help you
                 </p>
                 <p className="text-[10px] text-[#888888] mt-0.5">
-                  Powered by Gemini 2.0 Flash
+                  Powered by Gemini 2.5 Flash
                 </p>
               </div>
             </div>
