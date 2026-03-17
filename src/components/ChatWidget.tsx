@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
 interface Message {
@@ -11,30 +12,11 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hey! I'm Daniel — feel free to ask me anything about my experience, projects, or skills.",
+    "Hey! I'm AI-Daniel — I'm not as good as the real Daniel, but I can help you with any questions you might have about him.",
 };
 
 /** Maximum number of messages kept in the conversation context sent to the API */
 const MAX_CONTEXT_MESSAGES = 20;
-
-/** Chat icon SVG */
-function IconChat() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-}
 
 /** Close (X) icon SVG */
 function IconClose() {
@@ -105,6 +87,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showBubble, setShowBubble] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -119,6 +102,15 @@ export default function ChatWidget() {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [isOpen]);
+
+  /** Show the speech bubble only when the page is scrolled to the top */
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBubble(window.scrollY <= 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -206,16 +198,26 @@ export default function ChatWidget() {
         .chat-markdown li { margin: 0.15rem 0; }
         .chat-markdown code { background: #1e1e1e; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
         .chat-markdown strong { font-weight: 600; }
+        @keyframes speech-bubble-pop {
+          0%   { opacity: 0; transform: scale(0.3) translateY(16px); }
+          40%  { opacity: 1; transform: scale(1.12) translateY(-6px); }
+          60%  { transform: scale(0.95) translateY(2px); }
+          80%  { transform: scale(1.04) translateY(-1px); }
+          100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .speech-bubble-enter {
+          animation: speech-bubble-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
       `}</style>
 
       {/* Chat panel */}
       {isOpen && (
         <div
-          className="chat-panel-enter fixed bottom-24 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
+          className="chat-panel-enter fixed bottom-[288px] right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
           style={{
             zIndex: 10001,
             background: "#0a0a0a",
-            maxHeight: "min(520px, calc(100dvh - 120px))",
+            maxHeight: "min(520px, calc(100dvh - 304px))",
           }}
           role="dialog"
           aria-label="Chat with Daniel's portfolio assistant"
@@ -229,7 +231,7 @@ export default function ChatWidget() {
               />
               <div>
                 <p className="text-sm font-medium text-[#f5f5f5] leading-none">
-                  AI Daniel is here to help you
+                  AI-Daniel is here to help you
                 </p>
                 <p className="text-[10px] text-[#888888] mt-0.5">
                   Powered by Gemini 2.5 Flash
@@ -332,27 +334,52 @@ export default function ChatWidget() {
         </div>
       )}
 
-      {/* Floating trigger button */}
+      {/* Speech bubble */}
+      {showBubble && !isOpen && (
+        <div
+          className="speech-bubble-enter fixed bottom-[288px] right-[120px] sm:right-[120px]"
+          style={{ zIndex: 10000 }}
+        >
+          <div
+            className="relative bg-white rounded-3xl px-8 py-6 shadow-xl"
+            style={{ maxWidth: 420 }}
+          >
+            <p className="text-xl font-bold text-[#1a1a1a] leading-snug">
+              I&apos;m AI-Daniel, ask me anything!
+            </p>
+            {/* Comic-style tail pointing down toward the avatar */}
+            <div
+              className="absolute -bottom-4 right-10 w-0 h-0"
+              style={{
+                borderLeft: "16px solid transparent",
+                borderRight: "16px solid transparent",
+                borderTop: "16px solid white",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Avatar trigger */}
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="fixed bottom-6 right-4 sm:right-6 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
+        className="fixed bottom-4 right-2 sm:right-4 w-64 h-64 rounded-full overflow-hidden shadow-lg hover:brightness-110 active:scale-95"
         style={{
           zIndex: 10000,
-          background: "linear-gradient(135deg, #e5540a 0%, #ff6b1a 100%)",
-          boxShadow: "0 4px 24px rgba(229, 84, 10, 0.4)",
+          transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          transformOrigin: "bottom right",
+          transform: showBubble || isOpen ? "scale(1)" : "scale(0.5)",
         }}
         aria-label={isOpen ? "Close chat" : "Open chat assistant"}
         aria-expanded={isOpen}
       >
-        <span
-          className="transition-all duration-300"
-          style={{
-            opacity: 1,
-            transform: isOpen ? "rotate(90deg) scale(0.85)" : "rotate(0deg) scale(1)",
-          }}
-        >
-          {isOpen ? <IconClose /> : <IconChat />}
-        </span>
+        <Image
+          src="/images/avatar.png"
+          alt="AI-Daniel"
+          width={256}
+          height={256}
+          className="w-full h-full object-cover"
+        />
       </button>
     </>
   );
