@@ -1,40 +1,27 @@
-"use client";
-
-import { Element } from "react-scroll";
-import Navbar from "@/components/Navbar";
+import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import About from "@/components/About/About";
-import Projects from "@/components/Projects";
+import About from "@/components/About";
+import FeaturedProjects from "@/components/FeaturedProjects";
+import MoreWork from "@/components/MoreWork";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import BackToTop from "@/components/BackToTop";
-/**
- * Home page
- * @component
- * @returns Home page
- */
+import ChatWidget from "@/components/ChatWidget";
+
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <Element name="home">
+      <Navigation />
+      <main>
         <Hero />
-      </Element>
-      <Element name="about">
         <About />
-      </Element>
-      <Element name="portfolio">
-        <Projects />
-      </Element>
-      <Element name="references">
+        <FeaturedProjects />
+        <MoreWork />
         <Testimonials />
-      </Element>
-      <Element name="contact">
         <Contact />
-      </Element>
+      </main>
       <Footer />
-      <BackToTop />
+      <ChatWidget />
     </>
   );
 }

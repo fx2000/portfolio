@@ -1,69 +1,51 @@
 import type { Metadata } from "next";
-import { Providers } from "./providers";
+import { Inter } from "next/font/google";
+import FluidCursor from "@/components/FluidCursor";
+import "./globals.css";
 
-// Global styles
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@/styles/animate.css";
-import "@/styles/flaticon.css";
-import "@/styles/font-awesome.min.css";
-import "@/styles/themify-icons.css";
-import "@/styles/sass/style.scss";
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
 
-// Metadata for the page
 export const metadata: Metadata = {
-  title: "Daniel Duque's Portfolio",
-  description: "Full Stack Developer",
+  title: "Daniel Duque | AI-Driven Leader & Developer",
+  description:
+    "Portfolio of Daniel Duque. Tech leader and developer with 15+ years of experience shipping AI-powered products, leading engineering teams, and driving product strategy from startup to enterprise scale.",
   icons: {
     icon: [
-      { rel: "icon", type: "image/x-icon", url: "/favicon.ico" },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "16x16",
-        url: "/favicon-16x16.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        url: "/favicon-32x32.png",
-      },
-      {
-        rel: "apple-touch-icon",
-        sizes: "100x100",
-        url: "/apple-touch-icon.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "100x100",
-        url: "/android-chrome-192x192.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "100x100",
-        url: "/android-chrome-512x512.png",
-      },
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
+    apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
+  openGraph: {
+    title: "Daniel Duque | AI-Driven Leader & Developer",
+    description:
+      "15+ years shipping AI-powered products, leading engineering teams, and driving product strategy from startup to enterprise scale.",
+    type: "website",
+  },
 };
 
-/**
- * Root layout for the app
- * @param children - The children components
- * @returns The root layout
- */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
+    <html lang="en" className="dark">
+      <body className={`${inter.variable} font-sans antialiased grain`}>
+        {/* Hidden form for Netlify form detection during deploy */}
+        <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+          <input type="text" name="name" />
+          <input type="email" name="email" />
+          <textarea name="message" />
+        </form>
+        <FluidCursor />
+        {children}
       </body>
     </html>
   );
