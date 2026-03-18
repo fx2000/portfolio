@@ -108,6 +108,7 @@ function MarqueeRow({
                       href={t.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
+                      tabIndex={i >= items.length ? -1 : undefined}
                       className="flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-accent transition-colors duration-300"
                     >
                       {t.name}
