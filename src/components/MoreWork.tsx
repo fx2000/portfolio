@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getOtherProjects } from "@/data/projects";
 import { Project } from "@/types";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -20,7 +21,10 @@ const otherProjects = getOtherProjects();
 export default function MoreWork() {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<Project | null>(null);
+
+  useFocusTrap(modalRef, !!selected);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -119,6 +123,7 @@ export default function MoreWork() {
       {/* Detail modal */}
       {selected && (
         <div
+          ref={modalRef}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
           role="dialog"
           aria-modal="true"
@@ -128,6 +133,7 @@ export default function MoreWork() {
           <div
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setSelected(null)}
+            aria-hidden="true"
           />
 
           {/* Modal content */}
@@ -143,6 +149,7 @@ export default function MoreWork() {
                 height="16"
                 viewBox="0 0 16 16"
                 fill="none"
+                aria-hidden="true"
               >
                 <path
                   d="M2 2l12 12M14 2L2 14"
@@ -203,6 +210,7 @@ export default function MoreWork() {
                 href={selected.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Visit project: ${selected.title}`}
                 className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent-light transition-colors duration-300"
               >
                 Visit project
@@ -211,6 +219,7 @@ export default function MoreWork() {
                   height="14"
                   viewBox="0 0 14 14"
                   fill="none"
+                  aria-hidden="true"
                 >
                   <path
                     d="M1 7h12M8 2l5 5-5 5"

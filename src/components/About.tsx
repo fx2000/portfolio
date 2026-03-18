@@ -68,8 +68,8 @@ export default function About() {
   useEffect(() => {
     const mm = gsap.matchMedia();
 
-    // Desktop: pinned scroll reveal
-    mm.add("(min-width: 768px)", () => {
+    // Desktop: pinned scroll reveal (skip when reduced motion is preferred)
+    mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
       const phrases = textRef.current?.querySelectorAll(".phrase");
       if (!phrases) return;
 
@@ -93,8 +93,8 @@ export default function About() {
       });
     });
 
-    // Mobile: simple scroll-based reveal without pinning
-    mm.add("(max-width: 767px)", () => {
+    // Mobile: simple scroll-based reveal without pinning (skip when reduced motion is preferred)
+    mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)", () => {
       const phrases = textRef.current?.querySelectorAll(".phrase");
       if (!phrases) return;
 
@@ -112,8 +112,13 @@ export default function About() {
       });
     });
 
-    // Counter animation (both mobile and desktop)
-    if (counterRef.current) {
+    // Reduced motion: show final state immediately
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      if (counterRef.current) counterRef.current.textContent = "15+";
+    });
+
+    // Counter animation (both mobile and desktop, only when motion is OK)
+    if (counterRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const obj = { value: 0 };
       gsap.to(obj, {
         value: 15,
@@ -132,8 +137,8 @@ export default function About() {
       });
     }
 
-    // Skills pills stagger in
-    if (skillsRef.current) {
+    // Skills pills stagger in (only when motion is OK)
+    if (skillsRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const pills = skillsRef.current.querySelectorAll(".skill-pill");
       gsap.fromTo(
         pills,

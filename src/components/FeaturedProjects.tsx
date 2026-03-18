@@ -235,7 +235,7 @@ export default function FeaturedProjects() {
                       <button
                         key={`${img.src}-${imageIdx}`}
                         type="button"
-                        className={`project-image-card absolute inset-0 origin-center transition-all duration-500 ease-out pointer-events-auto focus:outline-none ${
+                        className={`project-image-card absolute inset-0 origin-center transition-all duration-500 ease-out pointer-events-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
                           baseTransforms[imageIdx] || ""
                         } ${baseZClasses[imageIdx] || "z-10"} hover:scale-115 hover:-translate-y-8 hover:rotate-0 focus-visible:scale-115 focus-visible:-translate-y-8 focus-visible:rotate-0`}
                         aria-label={img.alt}
@@ -301,6 +301,7 @@ export default function FeaturedProjects() {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Visit project: ${project.title}`}
                     className="group inline-flex items-center gap-2 text-sm text-accent hover:text-accent-light transition-colors duration-300 pt-1"
                   >
                     Visit project
@@ -309,6 +310,7 @@ export default function FeaturedProjects() {
                       height="14"
                       viewBox="0 0 14 14"
                       fill="none"
+                      aria-hidden="true"
                       className="transition-transform duration-300 group-hover:translate-x-1"
                     >
                       <path

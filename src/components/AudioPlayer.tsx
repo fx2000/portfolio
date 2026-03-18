@@ -129,12 +129,12 @@ export default function AudioPlayer({ src, type, title }: AudioPlayerProps) {
           className="relative flex-shrink-0 w-9 h-9 rounded-full bg-accent hover:bg-accent-light transition-colors duration-200 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
         >
           {isPlaying ? (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <rect x="2.5" y="1.5" width="3" height="11" rx="1" fill="white" />
               <rect x="8.5" y="1.5" width="3" height="11" rx="1" fill="white" />
             </svg>
           ) : (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path
                 d="M3.5 1.8C3.5 1.3 4.05 1 4.47 1.26L12.13 6.46C12.53 6.71 12.53 7.29 12.13 7.54L4.47 12.74C4.05 13 3.5 12.7 3.5 12.2V1.8Z"
                 fill="white"

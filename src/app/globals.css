@@ -142,3 +142,34 @@ body {
 .project-image-card:focus-visible {
   z-index: 50 !important;
 }
+
+
+/* Reduced-motion: disable CSS animations and ensure content visibility */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-left,
+  .marquee-right {
+    animation: none !important;
+  }
+
+  .scroll-indicator {
+    animation: none !important;
+  }
+
+  .speech-bubble-enter {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .chat-panel-enter {
+    animation: none !important;
+  }
+
+  .phrase {
+    color: var(--color-foreground) !important;
+  }
+
+  .skill-pill,
+  .work-card {
+    opacity: 1 !important;
+  }
+}

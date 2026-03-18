@@ -11,12 +11,18 @@ export default function FluidCursor() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mql = window.matchMedia("(pointer: fine)");
-    setIsDesktop(mql.matches);
+    const pointerMql = window.matchMedia("(pointer: fine)");
+    const motionMql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setIsDesktop(pointerMql.matches && !motionMql.matches);
 
-    const handleChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mql.addEventListener("change", handleChange);
-    return () => mql.removeEventListener("change", handleChange);
+    const update = () =>
+      setIsDesktop(pointerMql.matches && !motionMql.matches);
+    pointerMql.addEventListener("change", update);
+    motionMql.addEventListener("change", update);
+    return () => {
+      pointerMql.removeEventListener("change", update);
+      motionMql.removeEventListener("change", update);
+    };
   }, []);
 
   useEffect(() => {
@@ -45,6 +51,7 @@ export default function FluidCursor() {
   return (
     <canvas
       id="fluid-cursor-canvas"
+      aria-hidden="true"
       style={{
         position: "fixed",
         top: 0,

@@ -95,6 +95,7 @@ function MarqueeRow({
           <div
             key={`${t.id}-${i}`}
             className="w-[300px] sm:w-[400px] md:w-[500px] shrink-0 p-5 sm:p-6 md:p-8 rounded-2xl bg-surface-light border border-white/5 hover:border-white/10 transition-colors duration-300"
+            aria-hidden={i >= items.length ? true : undefined}
           >
             <blockquote>
               <p className="text-sm md:text-base text-foreground/80 leading-relaxed italic mb-6 line-clamp-5">

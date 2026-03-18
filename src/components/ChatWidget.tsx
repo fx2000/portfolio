@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface Message {
   role: "user" | "assistant";
@@ -31,6 +32,7 @@ function IconClose() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
@@ -51,6 +53,7 @@ function IconSend() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <line x1="22" y1="2" x2="11" y2="13" />
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -90,6 +93,9 @@ export default function ChatWidget() {
   const [showBubble, setShowBubble] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const chatPanelRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(chatPanelRef, isOpen);
 
   /** Scroll the messages list to the bottom */
   const scrollToBottom = () => {
@@ -223,6 +229,7 @@ export default function ChatWidget() {
       {/* Chat panel */}
       {isOpen && (
         <div
+          ref={chatPanelRef}
           className="chat-panel-enter fixed bottom-[160px] sm:bottom-[288px] right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
           style={{
             zIndex: 10001,
@@ -257,7 +264,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2 min-h-0">
+          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2 min-h-0" role="log" aria-live="polite" aria-label="Chat messages">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -322,8 +329,9 @@ export default function ChatWidget() {
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask me anything..."
+                aria-label="Type your message"
                 rows={1}
-                className="flex-1 bg-transparent text-sm text-[#f5f5f5] placeholder-[#555555] resize-none outline-none leading-relaxed min-h-[24px]"
+                className="flex-1 bg-transparent text-sm text-[#f5f5f5] placeholder-[#808080] resize-none outline-none leading-relaxed min-h-[24px]"
                 style={{ maxHeight: "120px" }}
                 disabled={isLoading}
               />
@@ -336,7 +344,7 @@ export default function ChatWidget() {
                 <IconSend />
               </button>
             </div>
-            <p className="text-[10px] text-[#555555] text-center mt-1.5">
+            <p className="text-[10px] text-[#888888] text-center mt-1.5">
               Free tier · 1,500 req/day · 15 req/min
             </p>
           </div>

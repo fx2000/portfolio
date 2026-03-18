@@ -105,6 +105,7 @@ export default function Navigation() {
         className={`md:hidden overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
           menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         } bg-black/90 backdrop-blur-xl`}
+        inert={!menuOpen ? true : undefined}
       >
         <ul className="px-6 py-6 space-y-4">
           {NAV_LINKS.map(({ label, href }) => (

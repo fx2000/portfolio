@@ -119,6 +119,7 @@ export default function Contact() {
                 height="16"
                 viewBox="0 0 16 16"
                 fill="none"
+                aria-hidden="true"
               >
                 <path
                   d="M8 2v9M4 8l4 4 4-4M2 14h12"
@@ -137,7 +138,7 @@ export default function Contact() {
           </div>
 
           {/* Right: form */}
-          <div>
+          <div aria-live="polite">
             {submitted ? (
               <div className="h-full flex items-center">
                 <div className="space-y-4">
@@ -147,6 +148,7 @@ export default function Contact() {
                       height="20"
                       viewBox="0 0 20 20"
                       fill="none"
+                      aria-hidden="true"
                     >
                       <path
                         d="M4 10l4 4 8-8"
