@@ -399,6 +399,7 @@ export default function ChatWidget() {
           alt="AI-Daniel"
           width={256}
           height={256}
+          priority
           className="w-full h-full object-cover"
         />
       </button>

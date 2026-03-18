@@ -135,7 +135,7 @@ export default function Hero() {
             ref={btn1Ref}
             href="#contact"
             onClick={scrollToContact}
-            className="magnetic-btn px-8 py-3.5 bg-accent hover:bg-accent-light text-white text-sm font-medium rounded-full transition-colors duration-300 tracking-wide"
+            className="magnetic-btn px-8 py-3.5 bg-accent hover:bg-accent-light text-white text-sm font-semibold rounded-full transition-colors duration-300 tracking-wide"
           >
             Get in touch
           </a>

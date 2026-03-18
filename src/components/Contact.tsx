@@ -234,7 +234,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="magnetic-btn px-8 py-3.5 bg-accent hover:bg-accent-light text-white text-sm font-medium rounded-full transition-colors duration-300 tracking-wide"
+                  className="magnetic-btn px-8 py-3.5 bg-accent hover:bg-accent-light text-white text-sm font-semibold rounded-full transition-colors duration-300 tracking-wide"
                 >
                   Send message
                 </button>
