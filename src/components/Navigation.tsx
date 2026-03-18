@@ -57,7 +57,7 @@ export default function Navigation() {
           aria-label="Home"
         >
           <Image
-            src="/images/logo.png"
+            src="/images/logo.webp"
             alt="Daniel Duque"
             width={36}
             height={36}

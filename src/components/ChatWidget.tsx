@@ -2,8 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import ReactMarkdown from "react-markdown";
+import dynamic from "next/dynamic";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+
+const ReactMarkdown = dynamic(() => import("react-markdown"), {
+  ssr: false,
+  loading: () => <p className="px-3.5 py-2.5 text-sm text-[#888888]">…</p>,
+});
 
 interface Message {
   role: "user" | "assistant";
@@ -390,7 +395,7 @@ export default function ChatWidget() {
         aria-expanded={isOpen}
       >
         <Image
-          src="/images/avatar.png"
+          src="/images/avatar.webp"
           alt="AI-Daniel"
           width={256}
           height={256}
