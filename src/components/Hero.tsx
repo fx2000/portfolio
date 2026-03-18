@@ -92,7 +92,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pb-[10vh] md:pb-0"
       aria-label="Introduction"
     >
       {/* Radial gradient glow */}

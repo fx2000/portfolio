@@ -1,13 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Renders a WebGL fluid simulation canvas that reacts to cursor movement.
  * Uses the smokey-fluid-cursor library for the effect.
+ * Disabled on touch/mobile devices to preserve native scrolling.
  */
 export default function FluidCursor() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
+    const mql = window.matchMedia("(pointer: fine)");
+    setIsDesktop(mql.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+
     import("smokey-fluid-cursor").then((mod) => {
       mod.initFluid({
         id: "fluid-cursor-canvas",
@@ -24,7 +38,9 @@ export default function FluidCursor() {
         transparent: true,
       });
     });
-  }, []);
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
 
   return (
     <canvas

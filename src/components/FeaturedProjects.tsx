@@ -191,10 +191,10 @@ export default function FeaturedProjects() {
             const baseTransforms = [
               // First card: on mobile sits at the top, desktop leans left
               "translate-y-0 md:-rotate-8 md:-translate-x-6 md:translate-y-2",
-              // Second card: slightly lower on mobile, minimal offset on desktop
-              "translate-y-4 md:translate-y-1",
-              // Third card: lower on mobile, leans right on desktop
-              "translate-y-8 md:rotate-8 md:translate-x-6 md:translate-y-4",
+              // Second card: tighter on mobile for more overlap, minimal offset on desktop
+              "translate-y-2 md:translate-y-1",
+              // Third card: tighter on mobile for more overlap, leans right on desktop
+              "translate-y-4 md:rotate-8 md:translate-x-6 md:translate-y-4",
             ];
 
             const baseZClasses = ["z-30", "z-20", "z-10"];

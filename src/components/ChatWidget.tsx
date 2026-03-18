@@ -208,16 +208,25 @@ export default function ChatWidget() {
         .speech-bubble-enter {
           animation: speech-bubble-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
+        .chat-panel-enter {
+          max-height: calc(100dvh - 176px);
+          height: 100dvh;
+        }
+        @media (min-width: 640px) {
+          .chat-panel-enter {
+            max-height: min(520px, calc(100dvh - 304px));
+            height: auto;
+          }
+        }
       `}</style>
 
       {/* Chat panel */}
       {isOpen && (
         <div
-          className="chat-panel-enter fixed bottom-[288px] right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
+          className="chat-panel-enter fixed bottom-[160px] sm:bottom-[288px] right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
           style={{
             zIndex: 10001,
             background: "#0a0a0a",
-            maxHeight: "min(520px, calc(100dvh - 304px))",
           }}
           role="dialog"
           aria-label="Chat with Daniel's portfolio assistant"
@@ -337,23 +346,22 @@ export default function ChatWidget() {
       {/* Speech bubble */}
       {showBubble && !isOpen && (
         <div
-          className="speech-bubble-enter fixed bottom-[288px] right-[120px] sm:right-[120px]"
+          className="speech-bubble-enter fixed bottom-[160px] sm:bottom-[288px] right-[16px] sm:right-[120px]"
           style={{ zIndex: 10000 }}
         >
           <div
-            className="relative bg-white rounded-3xl px-8 py-6 shadow-xl"
-            style={{ maxWidth: 420 }}
+            className="relative bg-white rounded-3xl px-4 py-3 sm:px-8 sm:py-6 shadow-xl max-w-[240px] sm:max-w-[420px]"
           >
-            <p className="text-xl font-bold text-[#1a1a1a] leading-snug">
+            <p className="text-sm sm:text-xl font-bold text-[#1a1a1a] leading-snug">
               I&apos;m AI-Daniel, ask me anything!
             </p>
             {/* Comic-style tail pointing down toward the avatar */}
             <div
-              className="absolute -bottom-4 right-10 w-0 h-0"
+              className="absolute -bottom-3 right-6 sm:right-10 w-0 h-0"
               style={{
-                borderLeft: "16px solid transparent",
-                borderRight: "16px solid transparent",
-                borderTop: "16px solid white",
+                borderLeft: "12px solid transparent",
+                borderRight: "12px solid transparent",
+                borderTop: "12px solid white",
               }}
             />
           </div>
@@ -363,7 +371,7 @@ export default function ChatWidget() {
       {/* Avatar trigger */}
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="fixed bottom-4 right-2 sm:right-4 w-64 h-64 rounded-full overflow-hidden shadow-lg hover:brightness-110 active:scale-95"
+        className="fixed bottom-4 right-2 sm:right-4 w-32 h-32 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-lg hover:brightness-110 active:scale-95"
         style={{
           zIndex: 10000,
           transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
