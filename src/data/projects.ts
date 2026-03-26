@@ -4,6 +4,29 @@ export const featuredProjectIds = [0, 7, 4, 2, 6, 1];
 
 export const projects: Project[] = [
   {
+    id: 13,
+    title: "BacktraceDesign",
+    description:
+      "A Chrome extension that reverse-engineers websites to automatically generate comprehensive, exportable style books containing colors, typography, design tokens, and component styles.",
+    contributions:
+      "Designed and built the entire extension from scratch, including color palette extraction with semantic role detection, CSS variable and token resolution, typography analysis, button and link style extraction with live-rendered previews, and multiple export formats including PDF, JSON Design Tokens, CSS Variables, and Tailwind Config.",
+    technologies: [
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Chrome Extensions API",
+    ],
+    company: "Personal Project",
+    about:
+      "BacktraceDesign extracts the design language of any website. It analyzes CSS to identify brand colors, resolve custom properties and @layer rules, capture typography details, extract button and link variants, and detect recurring spacing and shadow tokens — all exportable in multiple formats.",
+    client: "BacktraceDesign",
+    role: "Creator & Developer",
+    pImg: "/images/projects/backtrace/homepage.png",
+    pImgAlt: "BacktraceDesign - Extract the design language of any website",
+    url: "https://backtracedesign.duque.ai",
+    type: "company",
+  },
+  {
     id: 0,
     title: "Topsort",
     description:
