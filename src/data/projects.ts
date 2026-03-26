@@ -16,7 +16,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Chrome Extensions API",
     ],
-    company: "Chrome Extension",
+    company: "Browser Extension",
     about:
       "BacktraceDesign extracts the design language of any website. It analyzes CSS to identify brand colors, resolve custom properties and @layer rules, capture typography details, extract button and link variants, and detect recurring spacing and shadow tokens — all exportable in multiple formats.",
     client: "BacktraceDesign",
