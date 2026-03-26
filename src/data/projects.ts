@@ -16,7 +16,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Chrome Extensions API",
     ],
-    company: "Personal Project",
+    company: "Chrome Extension",
     about:
       "BacktraceDesign extracts the design language of any website. It analyzes CSS to identify brand colors, resolve custom properties and @layer rules, capture typography details, extract button and link variants, and detect recurring spacing and shadow tokens — all exportable in multiple formats.",
     client: "BacktraceDesign",
@@ -276,7 +276,12 @@ export const projects: Project[] = [
       "Sprouts Farmers Market is a supermarket chain offering natural and organic foods, operating 400+ stores in 23 states with 35,000 employees.",
     contributions:
       "Managed engineering delivery and product coordination, supervising a team of contractors while handling direct technical communication with the client. Responsible for building the new interface and resolving integration issues across third-party libraries.",
-    technologies: ["PHP", "WordPress", "Team Management", "Client Communication"],
+    technologies: [
+      "PHP",
+      "WordPress",
+      "Team Management",
+      "Client Communication",
+    ],
     company: "Hero Digital",
     about:
       "Hero Digital was contracted by Sprouts Farmers Market to improve their customer-facing website. I led engineering delivery and managed the contractor team while serving as the technical point of contact for the client.",
