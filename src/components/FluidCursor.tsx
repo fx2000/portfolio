@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSiteEffects } from "@/context/SiteEffectsContext";
 
 /**
  * Renders a WebGL fluid simulation canvas that reacts to cursor movement.
@@ -9,6 +10,7 @@ import { useEffect, useState } from "react";
  */
 export default function FluidCursor() {
   const [isDesktop, setIsDesktop] = useState(false);
+  const { effects } = useSiteEffects();
 
   useEffect(() => {
     const pointerMql = window.matchMedia("(pointer: fine)");
@@ -60,7 +62,8 @@ export default function FluidCursor() {
         height: "100vh",
         pointerEvents: "none",
         zIndex: 9998,
-        opacity: 0.35,
+        opacity: effects.cursorEnabled ? 0.35 : 0,
+        transition: "opacity 0.3s ease",
       }}
     />
   );

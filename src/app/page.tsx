@@ -9,6 +9,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 const ChatWidget = dynamic(() => import("@/components/ChatWidget"));
+const EffectsOverlay = dynamic(() => import("@/components/EffectsOverlay"));
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
       </main>
       <Footer />
       <ChatWidget />
+      <EffectsOverlay />
     </>
   );
 }

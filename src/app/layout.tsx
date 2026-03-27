@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import FluidCursor from "@/components/FluidCursor";
+import { SiteEffectsProvider } from "@/context/SiteEffectsContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -44,8 +45,10 @@ export default function RootLayout({
           <input type="email" name="email" />
           <textarea name="message" />
         </form>
-        <FluidCursor />
-        {children}
+        <SiteEffectsProvider>
+          <FluidCursor />
+          {children}
+        </SiteEffectsProvider>
       </body>
     </html>
   );
