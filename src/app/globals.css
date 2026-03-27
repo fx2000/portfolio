@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   --color-background: #000000;
   --color-foreground: #f5f5f5;
   --color-accent: #e5540a;
@@ -73,7 +73,7 @@ body {
 
 /* Text gradient utility */
 .text-gradient {
-  background: linear-gradient(180deg, #ffffff 0%, #999999 100%);
+  background: linear-gradient(180deg, var(--color-foreground) 0%, var(--color-muted) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

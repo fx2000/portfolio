@@ -4,10 +4,12 @@ import { createContext, useCallback, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
 export interface SiteEffects {
-  /** CSS color override for --background, or null for default */
+  /** CSS color override for --color-background, or null for default */
   background: string | null;
-  /** CSS color override for --accent, or null for default */
+  /** CSS color override for --color-accent, or null for default */
   accent: string | null;
+  /** CSS color override for --color-foreground, or null for default */
+  foreground: string | null;
   /** Whether the fluid cursor is enabled (default true) */
   cursorEnabled: boolean;
   /** Currently playing overlay effect name, or null */
@@ -23,6 +25,7 @@ interface SiteEffectsContextValue {
 const DEFAULT_EFFECTS: SiteEffects = {
   background: null,
   accent: null,
+  foreground: null,
   cursorEnabled: true,
   activeEffect: null,
 };
@@ -35,8 +38,11 @@ export function SiteEffectsProvider({ children }: { children: ReactNode }) {
   const resetEffects = useCallback(() => {
     setEffects(DEFAULT_EFFECTS);
     // Restore CSS custom properties
-    document.documentElement.style.removeProperty("--background");
-    document.documentElement.style.removeProperty("--accent");
+    document.documentElement.style.removeProperty("--color-background");
+    document.documentElement.style.removeProperty("--color-surface");
+    document.documentElement.style.removeProperty("--color-surface-light");
+    document.documentElement.style.removeProperty("--color-accent");
+    document.documentElement.style.removeProperty("--color-foreground");
   }, []);
 
   return (

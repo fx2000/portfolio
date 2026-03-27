@@ -87,7 +87,7 @@ export default function About() {
       phrases.forEach((phrase, i) => {
         tl.to(
           phrase,
-          { color: "#f5f5f5", duration: 1, ease: "none" },
+          { color: "var(--color-foreground)", duration: 1, ease: "none" },
           i * 0.6
         );
       });
@@ -100,7 +100,7 @@ export default function About() {
 
       phrases.forEach((phrase) => {
         gsap.to(phrase, {
-          color: "#f5f5f5",
+          color: "var(--color-foreground)",
           duration: 0.6,
           ease: "none",
           scrollTrigger: {
@@ -198,7 +198,7 @@ export default function About() {
               <span
                 key={i}
                 className="phrase transition-colors duration-100"
-                style={{ color: "#333333" }}
+                style={{ color: "var(--color-dim)" }}
               >
                 {phrase}{" "}
               </span>
