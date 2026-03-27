@@ -4,6 +4,8 @@ export interface Command {
   action: string;
   color?: string;
   enabled?: boolean;
+  section?: string;
+  project?: string;
 }
 
 /** Blend a hex color toward black by a given amount (0 = original, 1 = black) */
@@ -101,6 +103,51 @@ const handlers: Record<string, CommandHandler> = {
 
   snow(_command, setEffects) {
     setEffects((prev) => ({ ...prev, activeEffect: "snow" }));
+  },
+
+  scrollTo(command) {
+    if (!command.section) return;
+    const sectionMap: Record<string, string> = {
+      top: "main-content",
+      hero: "main-content",
+      about: "about",
+      work: "work",
+      projects: "work",
+      testimonials: "testimonials",
+      contact: "contact",
+    };
+    const id = sectionMap[command.section.toLowerCase()];
+    const el = id ? document.getElementById(id) : null;
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  },
+
+  highlight(command) {
+    if (!command.project) return;
+    const target = command.project.toLowerCase();
+
+    // Search featured project cards and more-work cards by their title text
+    const cards = document.querySelectorAll<HTMLElement>(
+      "[data-project-title]"
+    );
+
+    for (const card of cards) {
+      const title = card.dataset.projectTitle?.toLowerCase() ?? "";
+      if (title.includes(target) || target.includes(title)) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Pulse glow effect
+        card.style.transition = "box-shadow 0.3s ease, transform 0.3s ease";
+        card.style.boxShadow = "0 0 30px 10px rgba(229, 84, 10, 0.4)";
+        card.style.transform = "scale(1.02)";
+        setTimeout(() => {
+          card.style.boxShadow = "";
+          card.style.transform = "";
+        }, 2000);
+        return;
+      }
+    }
   },
 
   reset(_command, _setEffects, resetEffects) {

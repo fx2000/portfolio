@@ -20,7 +20,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hey! I'm AI-Daniel 👋 Ask me about Daniel's work and experience, or try something fun — like \"throw some confetti\" or \"make it snow\"! I can even change the site's colors. What would you like to do?",
+    "Hey! I'm AI-Daniel 👋 Ask me about Daniel's work, or try something fun — say \"show me your AI work\" and I'll take you there, or try \"throw confetti\" and \"make it snow\"! I can even change the site's colors.",
 };
 
 /** Maximum number of messages kept in the conversation context sent to the API */
