@@ -6,15 +6,25 @@ export interface Command {
   enabled?: boolean;
 }
 
-/** Parse a :::command ... ::: block from the AI response. Returns { text, command }. */
+/** Blend a hex color toward black by a given amount (0 = original, 1 = black) */
+function blendWithBlack(hex: string, amount: number): string {
+  const h = hex.replace("#", "");
+  const r = Math.round(parseInt(h.substring(0, 2), 16) * (1 - amount));
+  const g = Math.round(parseInt(h.substring(2, 4), 16) * (1 - amount));
+  const b = Math.round(parseInt(h.substring(4, 6), 16) * (1 - amount));
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+/** Parse a [COMMAND:{...}] tag from the AI response. Returns { text, command }. */
 export function parseCommandFromResponse(raw: string): {
   text: string;
   command: Command | null;
 } {
-  const match = raw.match(/:::command\s*\n?([\s\S]*?)\n?\s*:::/);
+  // Match [COMMAND:{"action":"..."}] — handles optional whitespace and newlines
+  const match = raw.match(/\[COMMAND:\s*(\{[^}]+\})\s*\]/);
   if (!match) return { text: raw, command: null };
 
-  const text = raw.replace(/:::command\s*\n?[\s\S]*?\n?\s*:::/g, "").trim();
+  const text = raw.replace(/\[COMMAND:\s*\{[^}]+\}\s*\]/g, "").trim();
 
   try {
     const command = JSON.parse(match[1].trim()) as Command;
@@ -34,14 +44,24 @@ type CommandHandler = (
 const handlers: Record<string, CommandHandler> = {
   changeBackground(command, setEffects) {
     if (!command.color) return;
-    document.documentElement.style.setProperty("--background", command.color);
+    const root = document.documentElement;
+    root.style.setProperty("--color-background", command.color);
+    // Derive surface variants so the entire page changes cohesively
+    root.style.setProperty("--color-surface", blendWithBlack(command.color, 0.15));
+    root.style.setProperty("--color-surface-light", blendWithBlack(command.color, 0.25));
     setEffects((prev) => ({ ...prev, background: command.color! }));
   },
 
   changeAccent(command, setEffects) {
     if (!command.color) return;
-    document.documentElement.style.setProperty("--accent", command.color);
+    document.documentElement.style.setProperty("--color-accent", command.color);
     setEffects((prev) => ({ ...prev, accent: command.color! }));
+  },
+
+  changeText(command, setEffects) {
+    if (!command.color) return;
+    document.documentElement.style.setProperty("--color-foreground", command.color);
+    setEffects((prev) => ({ ...prev, foreground: command.color! }));
   },
 
   toggleCursor(command, setEffects) {
