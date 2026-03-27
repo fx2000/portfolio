@@ -8,6 +8,8 @@ import { useSiteEffects } from "@/context/SiteEffectsContext";
 import { parseCommandFromResponse, executeCommand } from "@/lib/commandRegistry";
 import CodeSandbox from "@/components/CodeSandbox";
 
+const DoomOverlay = dynamic(() => import("@/components/DoomOverlay"), { ssr: false });
+
 const ReactMarkdown = dynamic(() => import("react-markdown"), {
   ssr: false,
   loading: () => <p className="px-3.5 py-2.5 text-sm text-[#888888]">…</p>,
@@ -21,7 +23,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hey! I'm AI-Daniel 👋 Ask me about Daniel's work, or try something fun — say \"show me your AI work\" and I'll take you there, or try \"throw confetti\" and \"make it snow\"! I can even change the site's colors.",
+    "Hey! I'm AI-Daniel 👋 Ask me about Daniel's work, or try something fun — say \"throw confetti\", \"make it snow\", \"show me your AI work\", or even \"let's play a game\"! I can also change the site's colors and show live code demos.",
 };
 
 /** Maximum number of messages kept in the conversation context sent to the API */
@@ -131,6 +133,8 @@ export default function ChatWidget() {
   const [pitchMessageIndices, setPitchMessageIndices] = useState<Set<number>>(new Set());
   // Code sandbox state — tracks code blocks per message index
   const [codeBlocks, setCodeBlocks] = useState<Map<number, { code: string; language: string }>>(new Map());
+  // Doom easter egg
+  const [showDoom, setShowDoom] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -323,6 +327,13 @@ export default function ChatWidget() {
       }
       if (isCodeResponse) {
         setCodeBlocks((m) => new Map(m).set(newIdx, { code: command!.code!, language: command!.language || "javascript" }));
+      }
+      // Launch Doom — either via explicit command or auto-detect the WarGames line
+      if (
+        command?.action === "playDoom" ||
+        (!command && /nice game of DOOM/i.test(replyText))
+      ) {
+        setTimeout(() => setShowDoom(true), 500);
       }
 
       if (command) {
@@ -692,6 +703,9 @@ export default function ChatWidget() {
       >
         <Image src="/images/avatar.webp" alt="AI-Daniel" width={256} height={256} priority className="w-full h-full object-cover" />
       </button>
+
+      {/* Doom easter egg overlay */}
+      {showDoom && <DoomOverlay onClose={() => setShowDoom(false)} />}
     </>
   );
 }
