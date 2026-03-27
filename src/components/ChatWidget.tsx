@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useSiteEffects } from "@/context/SiteEffectsContext";
 import { parseCommandFromResponse, executeCommand } from "@/lib/commandRegistry";
+import CodeSandbox from "@/components/CodeSandbox";
 
 const ReactMarkdown = dynamic(() => import("react-markdown"), {
   ssr: false,
@@ -128,6 +129,8 @@ export default function ChatWidget() {
 
   // Pitch CTA state — tracks which message indices should show the download button
   const [pitchMessageIndices, setPitchMessageIndices] = useState<Set<number>>(new Set());
+  // Code sandbox state — tracks code blocks per message index
+  const [codeBlocks, setCodeBlocks] = useState<Map<number, { code: string; language: string }>>(new Map());
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -253,23 +256,81 @@ export default function ChatWidget() {
         return;
       }
 
-      const { text: replyText, command } = parseCommandFromResponse(data.reply);
+      let { text: replyText, command } = parseCommandFromResponse(data.reply);
+
+      // Auto-detect code blocks even if the AI forgot the showCode command.
+      // Matches ``` with optional language, newline or space, then code, then closing ```.
+      // Also detects multi-line code without fences (4+ lines starting with spaces/function/const/let/var/if/for).
+      if (!command || command.action !== "showCode") {
+        // Also match <code>...</code> blocks
+        const htmlCodeMatch = replyText.match(/<code(?:\s+class="[^"]*language-(\w+)"[^>]*)?\s*>([\s\S]*?)<\/code>/);
+        if (htmlCodeMatch) {
+          command = { action: "showCode", code: htmlCodeMatch[2].trim(), language: htmlCodeMatch[1] || "javascript" };
+          replyText = replyText.replace(/<code(?:\s[^>]*)?>[\s\S]*?<\/code>/g, "").replace(/<pre[^>]*>\s*<\/pre>/g, "").trim();
+        }
+
+        if (!command) {
+          const fencedMatch = replyText.match(/```(\w*)\s*\n([\s\S]*?)```/);
+          if (fencedMatch) {
+            command = { action: "showCode", code: fencedMatch[2].trim(), language: fencedMatch[1] || "javascript" };
+            replyText = replyText.replace(/```\w*\s*\n[\s\S]*?```/g, "").trim();
+          }
+        }
+
+        if (!command) {
+          // Detect unfenced code: 4+ consecutive lines that look like code
+          const lines = replyText.split("\n");
+          const codePattern = /^(\s{2,}|\t)?(function |const |let |var |if |for |while |return |class |import |export |\/\/|\{|\}|=>)/;
+          let codeStart = -1;
+          let codeEnd = -1;
+          let consecutive = 0;
+
+          for (let li = 0; li < lines.length; li++) {
+            if (codePattern.test(lines[li])) {
+              if (codeStart === -1) codeStart = li;
+              codeEnd = li;
+              consecutive++;
+            } else if (lines[li].trim() === "") {
+              // blank lines inside code are OK
+              if (consecutive > 0) codeEnd = li;
+            } else {
+              if (consecutive >= 4) break;
+              codeStart = -1;
+              codeEnd = -1;
+              consecutive = 0;
+            }
+          }
+
+          if (consecutive >= 4 && codeStart !== -1) {
+            const codeLines = lines.slice(codeStart, codeEnd + 1);
+            const textLines = [...lines.slice(0, codeStart), ...lines.slice(codeEnd + 1)];
+            command = { action: "showCode", code: codeLines.join("\n").trim(), language: "javascript" };
+            replyText = textLines.join("\n").trim();
+          }
+        }
+      }
 
       const assistantMsg: Message = { role: "assistant", content: replyText };
+      const isCodeResponse = command?.action === "showCode" && command.code;
 
-      setMessages((prev) => {
-        const newMessages = [...prev, assistantMsg];
-        if (command?.action === "generatePitch") {
-          setPitchMessageIndices((s) => new Set(s).add(newMessages.length - 1));
-        }
-        return newMessages;
-      });
+      // Calculate the index the new message will have
+      const newIdx = messages.length + 1; // +1 because user message was already added
+
+      setMessages((prev) => [...prev, assistantMsg]);
+
+      if (command?.action === "generatePitch") {
+        setPitchMessageIndices((s) => new Set(s).add(newIdx));
+      }
+      if (isCodeResponse) {
+        setCodeBlocks((m) => new Map(m).set(newIdx, { code: command!.code!, language: command!.language || "javascript" }));
+      }
 
       if (command) {
         executeCommand(command, setEffects, resetEffects);
       }
 
-      if (shouldSpeak) {
+      // Speak response in voice mode, but skip for code responses
+      if (shouldSpeak && !isCodeResponse) {
         speakResponse(replyText);
       }
     } catch {
@@ -415,11 +476,21 @@ export default function ChatWidget() {
         .chat-panel-enter {
           max-height: calc(100dvh - 176px);
           height: 100dvh;
+          width: calc(100vw - 1rem);
         }
         @media (min-width: 640px) {
           .chat-panel-enter {
             max-height: min(520px, calc(100dvh - 304px));
             height: auto;
+          }
+          .chat-panel-normal {
+            width: 380px;
+            transition: width 0.3s ease;
+          }
+          .chat-panel-wide {
+            width: 50vw;
+            max-height: min(700px, calc(100dvh - 304px));
+            transition: width 0.3s ease;
           }
         }
         @keyframes mic-pulse {
@@ -451,7 +522,9 @@ export default function ChatWidget() {
       {isOpen && (
         <div
           ref={chatPanelRef}
-          className="chat-panel-enter fixed bottom-[160px] sm:bottom-[288px] right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl"
+          className={`chat-panel-enter fixed bottom-[160px] sm:bottom-[288px] right-2 sm:right-4 flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl ${
+            codeBlocks.size > 0 ? "chat-panel-wide" : "chat-panel-normal"
+          }`}
           style={{ zIndex: 10001, background: "#0a0a0a" }}
           role="dialog"
           aria-label="Chat with Daniel's portfolio assistant"
@@ -509,6 +582,12 @@ export default function ChatWidget() {
                           <IconDownload />
                           Download Daniel&apos;s Resume
                         </a>
+                      )}
+                      {codeBlocks.has(i) && (
+                        <CodeSandbox
+                          initialCode={codeBlocks.get(i)!.code}
+                          language={codeBlocks.get(i)!.language}
+                        />
                       )}
                     </>
                   ) : (
