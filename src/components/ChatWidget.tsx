@@ -80,6 +80,17 @@ function IconSpeaker() {
   );
 }
 
+/** Download icon SVG */
+function IconDownload() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
 /** Animated three-dot typing indicator */
 function TypingIndicator() {
   return (
@@ -114,6 +125,9 @@ export default function ChatWidget() {
   const voiceModeRef = useRef(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const finalTranscriptRef = useRef("");
+
+  // Pitch CTA state — tracks which message indices should show the download button
+  const [pitchMessageIndices, setPitchMessageIndices] = useState<Set<number>>(new Set());
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -241,7 +255,15 @@ export default function ChatWidget() {
 
       const { text: replyText, command } = parseCommandFromResponse(data.reply);
 
-      setMessages((prev) => [...prev, { role: "assistant", content: replyText }]);
+      const assistantMsg: Message = { role: "assistant", content: replyText };
+
+      setMessages((prev) => {
+        const newMessages = [...prev, assistantMsg];
+        if (command?.action === "generatePitch") {
+          setPitchMessageIndices((s) => new Set(s).add(newMessages.length - 1));
+        }
+        return newMessages;
+      });
 
       if (command) {
         executeCommand(command, setEffects, resetEffects);
@@ -280,25 +302,44 @@ export default function ChatWidget() {
     setInput("");
     setError(null);
 
+    // Debounce timer — waits for a pause in speech before sending
+    let silenceTimer: ReturnType<typeof setTimeout> | null = null;
+    const SILENCE_TIMEOUT = 2000; // 2 seconds of silence before auto-sending
+
     recognition.onresult = (event: SpeechRecognitionEvent) => {
+      // Clear any pending silence timer since we got new speech
+      if (silenceTimer) clearTimeout(silenceTimer);
+
+      let allFinal = "";
       let interim = "";
-      let final = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
+      for (let i = 0; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          final += transcript;
+          allFinal += transcript + " ";
         } else {
           interim += transcript;
         }
       }
-      if (final) {
-        finalTranscriptRef.current = final;
-        recognition.stop();
+
+      // Accumulate all final results (handles multi-phrase speech)
+      if (allFinal.trim()) {
+        finalTranscriptRef.current = allFinal.trim();
       }
-      setInput(final || interim);
+
+      // Show combined transcript in input
+      setInput((allFinal + interim).trim());
+
+      // If we got a final result, start the silence timer
+      // If user keeps speaking, onresult fires again and resets the timer
+      if (allFinal.trim()) {
+        silenceTimer = setTimeout(() => {
+          recognition.stop();
+        }, SILENCE_TIMEOUT);
+      }
     };
 
     recognition.onend = () => {
+      if (silenceTimer) clearTimeout(silenceTimer);
       setIsListening(false);
       const transcript = finalTranscriptRef.current.trim();
       if (transcript) {
@@ -397,6 +438,13 @@ export default function ChatWidget() {
         .tts-indicator {
           animation: tts-wave 1s ease-in-out infinite;
         }
+        @keyframes pitch-glow {
+          0%, 100% { box-shadow: 0 0 8px rgba(229, 84, 10, 0.3); }
+          50% { box-shadow: 0 0 16px rgba(229, 84, 10, 0.6); }
+        }
+        .pitch-cta {
+          animation: pitch-glow 2s ease-in-out infinite;
+        }
       `}</style>
 
       {/* Chat panel */}
@@ -451,6 +499,16 @@ export default function ChatWidget() {
                           <IconSpeaker />
                           Speaking...
                         </span>
+                      )}
+                      {pitchMessageIndices.has(i) && (
+                        <a
+                          href="/files/DanielDuqueCV.pdf"
+                          download="DanielDuqueCV.pdf"
+                          className="pitch-cta flex items-center gap-2 mt-3 px-4 py-2.5 rounded-xl bg-[#e5540a] text-white text-sm font-medium no-underline hover:bg-[#ff6b1a] transition-colors"
+                        >
+                          <IconDownload />
+                          Download Daniel&apos;s Resume
+                        </a>
                       )}
                     </>
                   ) : (
