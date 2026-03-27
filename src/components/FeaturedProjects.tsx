@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getFeaturedProjects } from "@/data/projects";
 import AudioPlayer from "@/components/AudioPlayer";
+import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -296,6 +297,11 @@ export default function FeaturedProjects() {
                       type={project.media.type}
                       title={project.media.title}
                     />
+                  )}
+
+                  {/* Architecture diagram for AI Portfolio */}
+                  {project.title === "AI Portfolio" && (
+                    <ArchitectureDiagram />
                   )}
 
                   <a
