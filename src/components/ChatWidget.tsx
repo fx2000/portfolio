@@ -161,31 +161,49 @@ export default function ChatWidget() {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  /** Speak text using Web Speech API TTS */
-  const speakResponse = useCallback((text: string) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+  const ttsAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  /** Speak text using Google Cloud TTS via /api/tts */
+  const speakResponse = useCallback(async (text: string) => {
+    // Stop any currently playing audio
+    if (ttsAudioRef.current) {
+      ttsAudioRef.current.pause();
+      ttsAudioRef.current = null;
+    }
 
     const cleaned = stripForSpeech(text);
     if (!cleaned) return;
 
-    const utterance = new SpeechSynthesisUtterance(cleaned);
-    utterance.rate = 1.05;
-    utterance.pitch = 1.0;
+    try {
+      setIsSpeaking(true);
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: cleaned }),
+      });
 
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find(
-      (v) =>
-        v.lang.startsWith("en") &&
-        (v.name.includes("Daniel") || v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Samantha"))
-    );
-    if (preferred) utterance.voice = preferred;
+      if (!res.ok) {
+        setIsSpeaking(false);
+        return;
+      }
 
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
+      const data = await res.json();
+      const audio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+      ttsAudioRef.current = audio;
 
-    window.speechSynthesis.speak(utterance);
+      audio.onended = () => {
+        setIsSpeaking(false);
+        ttsAudioRef.current = null;
+      };
+      audio.onerror = () => {
+        setIsSpeaking(false);
+        ttsAudioRef.current = null;
+      };
+
+      await audio.play();
+    } catch {
+      setIsSpeaking(false);
+    }
   }, []);
 
   /** Send a message and fetch the AI reply */
@@ -252,8 +270,9 @@ export default function ChatWidget() {
     }
 
     // Stop any ongoing TTS
-    if (isSpeaking) {
-      window.speechSynthesis?.cancel();
+    if (isSpeaking && ttsAudioRef.current) {
+      ttsAudioRef.current.pause();
+      ttsAudioRef.current = null;
       setIsSpeaking(false);
     }
 
