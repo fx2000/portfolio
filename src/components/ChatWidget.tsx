@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useSiteEffects } from "@/context/SiteEffectsContext";
+import { parseCommandFromResponse, executeCommand } from "@/lib/commandRegistry";
 
 const ReactMarkdown = dynamic(() => import("react-markdown"), {
   ssr: false,
@@ -18,7 +20,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hey! I'm AI-Daniel — I'm not as good as the real Daniel, but I can help you with any questions you might have about him.",
+    "Hey! I'm AI-Daniel 👋 Ask me about Daniel's work and experience, or try something fun — like \"throw some confetti\" or \"make it snow\"! I can even change the site's colors. What would you like to do?",
 };
 
 /** Maximum number of messages kept in the conversation context sent to the API */
@@ -100,6 +102,8 @@ export default function ChatWidget() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
 
+  const { setEffects, resetEffects } = useSiteEffects();
+
   useFocusTrap(chatPanelRef, isOpen);
 
   /** Scroll the messages list to the bottom */
@@ -162,10 +166,16 @@ export default function ChatWidget() {
         return;
       }
 
+      const { text, command } = parseCommandFromResponse(data.reply);
+
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.reply },
+        { role: "assistant", content: text },
       ]);
+
+      if (command) {
+        executeCommand(command, setEffects, resetEffects);
+      }
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {
@@ -366,7 +376,7 @@ export default function ChatWidget() {
             className="relative bg-white rounded-3xl px-4 py-3 sm:px-8 sm:py-6 shadow-xl max-w-[240px] sm:max-w-[420px]"
           >
             <p className="text-sm sm:text-xl font-bold text-[#1a1a1a] leading-snug">
-              I&apos;m AI-Daniel, ask me anything!
+              I&apos;m AI-Daniel — ask me anything or try &quot;throw confetti&quot;!
             </p>
             {/* Comic-style tail pointing down toward the avatar */}
             <div
