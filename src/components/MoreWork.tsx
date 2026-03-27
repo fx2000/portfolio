@@ -91,6 +91,7 @@ export default function MoreWork() {
           {otherProjects.map((project) => (
             <button
               key={project.id}
+              data-project-title={project.title}
               className="work-card card-glow group text-left rounded-2xl bg-surface-light p-6 transition-all duration-400 hover:-translate-y-1 cursor-pointer opacity-0"
               onClick={() => setSelected(project)}
             >

@@ -4,6 +4,10 @@ export interface Command {
   action: string;
   color?: string;
   enabled?: boolean;
+  section?: string;
+  project?: string;
+  code?: string;
+  language?: string;
 }
 
 /** Blend a hex color toward black by a given amount (0 = original, 1 = black) */
@@ -15,23 +19,101 @@ function blendWithBlack(hex: string, amount: number): string {
   return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
+/**
+ * Extract code from a markdown fenced code block in the response.
+ * Returns { textWithoutCode, code, language } or null if no code block found.
+ */
+function extractCodeBlock(text: string): { cleaned: string; code: string; language: string } | null {
+  const match = text.match(/```(\w*)\n([\s\S]*?)```/);
+  if (!match) return null;
+  const language = match[1] || "javascript";
+  const code = match[2].trim();
+  const cleaned = text.replace(/```\w*\n[\s\S]*?```/g, "").trim();
+  return { cleaned, code, language };
+}
+
 /** Parse a [COMMAND:{...}] tag from the AI response. Returns { text, command }. */
 export function parseCommandFromResponse(raw: string): {
   text: string;
   command: Command | null;
 } {
-  // Match [COMMAND:{"action":"..."}] — handles optional whitespace and newlines
-  const match = raw.match(/\[COMMAND:\s*(\{[^}]+\})\s*\]/);
-  if (!match) return { text: raw, command: null };
+  // Find [COMMAND: and then extract the balanced JSON object that follows
+  const marker = "[COMMAND:";
+  const startIdx = raw.indexOf(marker);
+  if (startIdx === -1) return { text: raw, command: null };
 
-  const text = raw.replace(/\[COMMAND:\s*\{[^}]+\}\s*\]/g, "").trim();
+  const jsonStart = startIdx + marker.length;
+  // Find the balanced closing brace, accounting for nested braces in code strings
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  let jsonEnd = -1;
+
+  for (let i = jsonStart; i < raw.length; i++) {
+    const ch = raw[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\") { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{") depth++;
+    if (ch === "}") { depth--; if (depth === 0) { jsonEnd = i + 1; break; } }
+  }
+
+  if (jsonEnd === -1) {
+    // Balanced brace matching failed — the AI likely output malformed JSON.
+    // Try to salvage: if we see showCode, extract code from a markdown block instead.
+    if (raw.includes('"showCode"') || raw.includes("showCode")) {
+      const codeBlock = extractCodeBlock(raw);
+      if (codeBlock) {
+        // Strip everything from [COMMAND: onwards
+        const textBeforeCommand = raw.slice(0, startIdx).trim();
+        const cleaned = codeBlock.cleaned || textBeforeCommand;
+        return {
+          text: cleaned,
+          command: { action: "showCode", code: codeBlock.code, language: codeBlock.language },
+        };
+      }
+    }
+    // Strip the broken command tag from display
+    const text = raw.slice(0, startIdx).trim();
+    return { text: text || raw, command: null };
+  }
+
+  const jsonStr = raw.slice(jsonStart, jsonEnd);
+  // Find the closing ] after the JSON
+  const closingBracket = raw.indexOf("]", jsonEnd);
+  const fullTag = raw.slice(startIdx, closingBracket !== -1 ? closingBracket + 1 : jsonEnd);
+  const text = raw.replace(fullTag, "").trim();
 
   try {
-    const command = JSON.parse(match[1].trim()) as Command;
+    const command = JSON.parse(jsonStr) as Command;
     if (!command.action || typeof command.action !== "string") return { text, command: null };
+
+    // For showCode: if the JSON parsed but has no code, try extracting from markdown block
+    if (command.action === "showCode" && !command.code) {
+      const codeBlock = extractCodeBlock(text);
+      if (codeBlock) {
+        command.code = codeBlock.code;
+        command.language = codeBlock.language;
+        return { text: codeBlock.cleaned, command };
+      }
+    }
+
     return { text, command };
   } catch {
-    return { text, command: null };
+    // JSON parse failed — try markdown code block fallback for showCode
+    if (raw.includes("showCode")) {
+      const codeBlock = extractCodeBlock(raw);
+      if (codeBlock) {
+        const cleanText = raw.slice(0, startIdx).trim();
+        return {
+          text: codeBlock.cleaned || cleanText,
+          command: { action: "showCode", code: codeBlock.code, language: codeBlock.language },
+        };
+      }
+    }
+    const cleanText = raw.slice(0, startIdx).trim();
+    return { text: cleanText || raw, command: null };
   }
 }
 
@@ -101,6 +183,64 @@ const handlers: Record<string, CommandHandler> = {
 
   snow(_command, setEffects) {
     setEffects((prev) => ({ ...prev, activeEffect: "snow" }));
+  },
+
+  scrollTo(command) {
+    if (!command.section) return;
+    const sectionMap: Record<string, string> = {
+      top: "main-content",
+      hero: "main-content",
+      about: "about",
+      work: "work",
+      projects: "work",
+      testimonials: "testimonials",
+      contact: "contact",
+    };
+    const id = sectionMap[command.section.toLowerCase()];
+    const el = id ? document.getElementById(id) : null;
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  },
+
+  highlight(command) {
+    if (!command.project) return;
+    const target = command.project.toLowerCase();
+
+    // Search featured project cards and more-work cards by their title text
+    const cards = document.querySelectorAll<HTMLElement>(
+      "[data-project-title]"
+    );
+
+    for (const card of cards) {
+      const title = card.dataset.projectTitle?.toLowerCase() ?? "";
+      if (title.includes(target) || target.includes(title)) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Pulse glow effect
+        card.style.transition = "box-shadow 0.3s ease, transform 0.3s ease";
+        card.style.boxShadow = "0 0 30px 10px rgba(229, 84, 10, 0.4)";
+        card.style.transform = "scale(1.02)";
+        setTimeout(() => {
+          card.style.boxShadow = "";
+          card.style.transform = "";
+        }, 2000);
+        return;
+      }
+    }
+  },
+
+  showCode() {
+    // UI handled in ChatWidget — no global effect needed
+  },
+
+  playDoom() {
+    // UI handled in ChatWidget — opens Doom overlay
+  },
+
+  generatePitch(_command, setEffects) {
+    // Trigger confetti as a celebratory moment; the CTA button is handled in ChatWidget
+    setEffects((prev) => ({ ...prev, activeEffect: "confetti" }));
   },
 
   reset(_command, _setEffects, resetEffects) {

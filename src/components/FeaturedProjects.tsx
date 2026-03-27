@@ -202,6 +202,7 @@ export default function FeaturedProjects() {
             return (
               <div
                 key={project.id}
+                data-project-title={project.title}
                 ref={(el) => {
                   if (el) cardsRef.current[idx] = el;
                 }}
