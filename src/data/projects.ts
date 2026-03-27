@@ -1,6 +1,6 @@
 import { Project } from "@/types";
 
-export const featuredProjectIds = [0, 7, 4, 2, 6, 1];
+export const featuredProjectIds = [0, 7, 4, 2, 1, 14];
 
 export const projects: Project[] = [
   {
@@ -398,6 +398,35 @@ export const projects: Project[] = [
     pImgAlt: "Prosprice Homepage",
     url: "https://www.prosprice.com",
     type: "agency",
+  },
+  {
+    id: 14,
+    title: "AI Portfolio",
+    description:
+      "This portfolio site — an AI-powered interactive experience built with Next.js 16, featuring a conversational AI assistant that can control the website in real time, voice chat with natural TTS, live code sandboxes, smart navigation, and hidden easter eggs.",
+    contributions:
+      "Architected and built the entire AI interaction layer: a command system that lets the chatbot change colors, trigger visual effects (fireworks, confetti, snow, matrix rain, disco mode), navigate to sections, and highlight projects. Implemented voice chat with Web Speech API for STT and Google Cloud TTS for natural speech output. Built a live code sandbox with iframe-based execution. Created the WarGames easter egg that launches playable DOOM in the browser via js-dos. Designed a tailored pitch system that generates custom responses for recruiters and offers resume downloads. All powered by Google Gemini 2.5 Flash with a sophisticated prompt engineering layer.",
+    technologies: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Gemini API",
+      "Google Cloud TTS",
+      "Web Speech API",
+      "GSAP",
+      "Tailwind CSS",
+      "js-dos",
+      "Netlify",
+    ],
+    company: "Personal Project",
+    about:
+      "A portfolio site that doubles as an AI capabilities demo. The conversational AI assistant (powered by Gemini 2.5 Flash) doesn't just answer questions — it controls the website in real time through a custom command system. Visitors can ask it to change the site's colors, throw fireworks, navigate to projects, show live code demos, play DOOM, or generate tailored pitches. Voice chat enables hands-free interaction with natural text-to-speech. The entire site was built through an AI-assisted workflow using Claude Code, with Daniel directing architecture and design decisions.",
+    client: "Daniel Duque",
+    role: "Creator & Developer",
+    pImg: "/images/projects/portfolio/homepage.png",
+    pImgAlt: "AI Portfolio - Interactive AI-powered portfolio site",
+    url: "https://duque.ai",
+    type: "company",
   },
 ];
 

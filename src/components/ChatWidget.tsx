@@ -7,6 +7,7 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useSiteEffects } from "@/context/SiteEffectsContext";
 import { parseCommandFromResponse, executeCommand } from "@/lib/commandRegistry";
 import CodeSandbox from "@/components/CodeSandbox";
+import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 
 const DoomOverlay = dynamic(() => import("@/components/DoomOverlay"), { ssr: false });
 
@@ -133,6 +134,8 @@ export default function ChatWidget() {
   const [pitchMessageIndices, setPitchMessageIndices] = useState<Set<number>>(new Set());
   // Code sandbox state — tracks code blocks per message index
   const [codeBlocks, setCodeBlocks] = useState<Map<number, { code: string; language: string }>>(new Map());
+  // Diagram state — tracks which messages show the architecture diagram
+  const [diagramMessageIndices, setDiagramMessageIndices] = useState<Set<number>>(new Set());
   // Doom easter egg
   const [showDoom, setShowDoom] = useState(false);
 
@@ -327,6 +330,9 @@ export default function ChatWidget() {
       }
       if (isCodeResponse) {
         setCodeBlocks((m) => new Map(m).set(newIdx, { code: command!.code!, language: command!.language || "javascript" }));
+      }
+      if (command?.action === "showDiagram") {
+        setDiagramMessageIndices((s) => new Set(s).add(newIdx));
       }
       // Launch Doom — either via explicit command or auto-detect the WarGames line
       if (
@@ -534,7 +540,7 @@ export default function ChatWidget() {
         <div
           ref={chatPanelRef}
           className={`chat-panel-enter fixed bottom-[160px] sm:bottom-[288px] right-2 sm:right-4 flex flex-col rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-2xl ${
-            codeBlocks.size > 0 ? "chat-panel-wide" : "chat-panel-normal"
+            codeBlocks.size > 0 || diagramMessageIndices.size > 0 ? "chat-panel-wide" : "chat-panel-normal"
           }`}
           style={{ zIndex: 10001, background: "#0a0a0a" }}
           role="dialog"
@@ -599,6 +605,9 @@ export default function ChatWidget() {
                           initialCode={codeBlocks.get(i)!.code}
                           language={codeBlocks.get(i)!.language}
                         />
+                      )}
+                      {diagramMessageIndices.has(i) && (
+                        <ArchitectureDiagram />
                       )}
                     </>
                   ) : (

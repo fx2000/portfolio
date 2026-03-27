@@ -238,6 +238,10 @@ const handlers: Record<string, CommandHandler> = {
     // UI handled in ChatWidget — opens Doom overlay
   },
 
+  showDiagram() {
+    // UI handled in ChatWidget — renders architecture diagram inline
+  },
+
   generatePitch(_command, setEffects) {
     // Trigger confetti as a celebratory moment; the CTA button is handled in ChatWidget
     setEffects((prev) => ({ ...prev, activeEffect: "confetti" }));
