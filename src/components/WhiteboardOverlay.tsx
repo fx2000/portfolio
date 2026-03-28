@@ -202,14 +202,24 @@ export default function WhiteboardOverlay({
   }, [myColor, channel, renderCanvas]);
 
   return (
+    <>
+    {/* Dark backdrop */}
     <div
-      className="fixed top-1/2 left-1/2 flex flex-col rounded-2xl overflow-hidden border border-[#333] shadow-2xl"
+      className="fixed inset-0"
+      style={{ zIndex: 10002, background: "rgba(0,0,0,0.6)" }}
+      onClick={onClose}
+    />
+
+    {/* Whiteboard window */}
+    <div
+      className="fixed top-1/2 left-1/2 flex flex-col rounded-2xl overflow-hidden border border-[#333]"
       style={{
         zIndex: 10003,
         width: "min(92vw, 1100px)",
         height: "min(85vh, 750px)",
         transform: "translate(-50%, -50%)",
         background: "#0a0a0a",
+        boxShadow: "0 0 40px rgba(229, 84, 10, 0.2), 0 0 80px rgba(229, 84, 10, 0.1), 0 25px 50px rgba(0,0,0,0.5)",
       }}
     >
       {/* Toolbar */}
@@ -265,5 +275,6 @@ export default function WhiteboardOverlay({
         />
       </div>
     </div>
+    </>
   );
 }
