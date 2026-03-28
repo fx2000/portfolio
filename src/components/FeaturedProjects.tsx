@@ -229,7 +229,7 @@ export default function FeaturedProjects() {
                         {project.technologies.map((tech) => (
                           <span
                             key={tech}
-                            className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-muted"
+                            className="px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 text-xs text-muted"
                           >
                             {tech}
                           </span>
@@ -313,7 +313,7 @@ export default function FeaturedProjects() {
                         } ${baseZClasses[imageIdx] || "z-10"} hover:scale-115 hover:-translate-y-8 hover:rotate-0 focus-visible:scale-115 focus-visible:-translate-y-8 focus-visible:rotate-0`}
                         aria-label={img.alt}
                       >
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-surface-light shadow-xl border border-white/10">
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-surface-light shadow-xl border border-foreground/10">
                           <Image
                             src={img.src}
                             alt={img.alt}
@@ -354,7 +354,7 @@ export default function FeaturedProjects() {
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-muted"
+                        className="px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 text-xs text-muted"
                       >
                         {tech}
                       </span>

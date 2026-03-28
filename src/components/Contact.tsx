@@ -193,7 +193,7 @@ export default function Contact() {
                     id="name"
                     name="name"
                     required
-                    className="w-full bg-transparent border-b border-white/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim"
+                    className="w-full bg-transparent border-b border-foreground/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim"
                     placeholder="Your name"
                   />
                 </div>
@@ -210,7 +210,7 @@ export default function Contact() {
                     id="email"
                     name="email"
                     required
-                    className="w-full bg-transparent border-b border-white/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim"
+                    className="w-full bg-transparent border-b border-foreground/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -227,7 +227,7 @@ export default function Contact() {
                     name="message"
                     required
                     rows={5}
-                    className="w-full bg-transparent border-b border-white/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim resize-none"
+                    className="w-full bg-transparent border-b border-foreground/10 focus:border-accent py-3 text-foreground outline-none transition-colors duration-300 placeholder:text-dim resize-none"
                     placeholder="Tell me about your project..."
                   />
                 </div>

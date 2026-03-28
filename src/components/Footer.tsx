@@ -5,7 +5,7 @@ import { socialLinks } from "@/data/social";
  */
 export default function Footer() {
   return (
-    <footer className="py-8 px-6 md:px-12 bg-background border-t border-white/5">
+    <footer className="py-8 px-6 md:px-12 bg-background border-t border-foreground/5">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-xs text-muted">
           &copy; {new Date().getFullYear()} Daniel Duque. All rights reserved.

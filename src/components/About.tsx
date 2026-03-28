@@ -211,7 +211,7 @@ export default function About() {
           {ALL_SKILLS.map((skill) => (
             <span
               key={skill}
-              className="skill-pill px-3 py-1 rounded-full border border-white/10 text-xs text-muted hover:text-foreground hover:border-white/30 transition-all duration-300 opacity-0"
+              className="skill-pill px-3 py-1 rounded-full border border-foreground/10 text-xs text-muted hover:text-foreground hover:border-foreground/30 transition-all duration-300 opacity-0"
             >
               {skill}
             </span>

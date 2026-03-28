@@ -138,7 +138,7 @@ export default function MoreWork() {
           />
 
           {/* Modal content */}
-          <div className="relative bg-surface-light rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-white/5">
+          <div className="relative bg-surface-light rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-foreground/5">
             {/* Close button */}
             <button
               onClick={() => setSelected(null)}
@@ -200,7 +200,7 @@ export default function MoreWork() {
                 {selected.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-muted"
+                    className="px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 text-xs text-muted"
                   >
                     {tech}
                   </span>
