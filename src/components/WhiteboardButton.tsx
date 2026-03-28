@@ -30,6 +30,8 @@ export default function WhiteboardButton() {
 
   // Track presence for user count
   useEffect(() => {
+    if (!supabase) return;
+
     const ch = supabase.channel("whiteboard", {
       config: { presence: { key: crypto.randomUUID() } },
     });

@@ -247,6 +247,11 @@ const handlers: Record<string, CommandHandler> = {
     setEffects((prev) => ({ ...prev, activeEffect: "confetti" }));
   },
 
+  toggleTheme() {
+    document.documentElement.classList.toggle("light");
+    document.documentElement.classList.toggle("dark");
+  },
+
   reset(_command, _setEffects, resetEffects) {
     resetEffects();
   },
