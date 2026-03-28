@@ -61,24 +61,36 @@ The chatbot can control the website in real time through a custom command protoc
 - `highlight` finds a project card by name, scrolls to it, and applies a 2-second orange glow effect
 - Fuzzy matching on project titles
 
+### Real-Time Collaborative Whiteboard
+- Custom-built whiteboard with **Supabase Realtime** for live collaboration
+- **Shape tools:** Freehand draw, rectangle, circle, line, arrow, text
+- **Live cursors:** See other users' cursor positions with name labels in real time
+- **Color picker:** 8 colors, per-user assignment
+- **Selection & move:** Click to select shapes, drag to reposition
+- **Undo** (Cmd/Ctrl+Z), **Delete**, **Clear mine**
+- **Export:** Save as PNG or copy to clipboard
+- **Name prompt:** Enter your name before joining — displayed on your cursor for others
+- **Presence tracking:** Live user count badge on the whiteboard icon
+- Ephemeral — drawings persist as long as at least one user has the page open
+
 ### Easter Eggs
 - **WarGames + DOOM:** Ask to play a game and the AI follows the WarGames script ("How about a nice game of Global Thermonuclear War?"), then launches playable DOOM shareware via js-dos WebAssembly emulator
 
 ## Architecture
 
 ```mermaid
-graph LR
+graph TB
     subgraph Browser
-        WSA["Web Speech API\nSTT"] --> CW
-        CW["Chat Widget\nText + Voice\nCommand Parser"]
-        CW -->|commands| SEC["SiteEffectsContext"]
-        SEC --> EO["Effects Overlay\nGSAP + Canvas"]
-        SEC --> FC["Fluid Cursor\nWebGL"]
-        CW -->|code| CS["Code Sandbox\nLive JS Editor"]
-        CW --> DO["DOOM Overlay\njs-dos WASM"]
+        CW["Chat Widget\nVoice + Commands"]
+        EO["Effects Engine\nGSAP + Canvas"]
+        CS["Code Sandbox\nLive JS"]
+        FC["Fluid Cursor\nWebGL"]
+        WSA["Web Speech API\nSTT"]
+        DO["DOOM Overlay\njs-dos WASM"]
+        WB["Whiteboard\nShapes + Live Cursors"]
     end
 
-    subgraph Server["Next.js API Routes"]
+    subgraph Server["Next.js API Routes (Netlify)"]
         AC["/api/chat"]
         AT["/api/tts"]
         ATR["/api/transcribe"]
@@ -88,14 +100,20 @@ graph LR
         GEM["Gemini 2.5 Flash"]
         TTS["Google Cloud TTS\nNeural Voice"]
         JD["js-dos CDN\nDOOM Shareware"]
+        SB["Supabase Realtime\nPresence + Broadcast"]
     end
 
+    WSA -->|transcript| CW
+    CW -->|commands| EO
+    CW -->|code| CS
+    EO --> FC
     CW -->|messages| AC
     CW -->|text| AT
     AC --> GEM
     AT --> TTS
     ATR --> GEM
     DO -->|bundle| JD
+    WB -->|WebSocket| SB
 ```
 
 ## Tech Stack
@@ -105,6 +123,7 @@ graph LR
 - **Animations:** GSAP with ScrollTrigger, custom canvas effects
 - **AI:** Google Gemini 2.5 Flash, Google Cloud TTS
 - **Voice:** Web Speech API (STT), Google Cloud TTS (response)
+- **Realtime:** Supabase Realtime (Presence + Broadcast)
 - **Deployment:** Netlify (with edge functions)
 - **Other:** js-dos (DOOM emulator), smokey-fluid-cursor (WebGL)
 
@@ -121,10 +140,13 @@ Create a `.env.local` file:
 ```bash
 GEMINI_API_KEY=your_gemini_api_key
 GOOGLE_TTS_API_KEY=your_google_cloud_tts_api_key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 - **Gemini API key:** Get from [Google AI Studio](https://aistudio.google.com/apikey)
 - **TTS API key:** Enable [Cloud Text-to-Speech API](https://console.cloud.google.com/apis/library/texttospeech.googleapis.com) in Google Cloud Console, then create an API key under Credentials
+- **Supabase:** Create a free project at [supabase.com](https://supabase.com), copy the Project URL and anon key from Settings → API
 
 ### Development
 
@@ -158,6 +180,8 @@ src/
 │   ├── CodeSandbox.tsx            # Live code editor + runner
 │   ├── EffectsOverlay.tsx         # Canvas overlay for visual effects
 │   ├── DoomOverlay.tsx            # DOOM emulator overlay
+│   ├── WhiteboardButton.tsx       # Whiteboard trigger + name prompt + presence
+│   ├── WhiteboardOverlay.tsx      # Collaborative whiteboard canvas
 │   ├── ArchitectureDiagram.tsx    # SVG architecture diagram
 │   ├── FluidCursor.tsx            # WebGL fluid cursor (toggleable)
 │   ├── Hero.tsx                   # Hero section with GSAP animations
@@ -170,6 +194,7 @@ src/
 │   └── projects.ts               # Project data
 ├── lib/
 │   ├── commandRegistry.ts        # Command parser, validator, handlers
+│   ├── supabase.ts               # Supabase client
 │   ├── animations.ts             # GSAP animation utilities
 │   └── effects/                   # Visual effect modules
 │       ├── fireworks.ts

@@ -94,7 +94,7 @@ function MarqueeRow({
         {duplicated.map((t, i) => (
           <div
             key={`${t.id}-${i}`}
-            className="w-[300px] sm:w-[400px] md:w-[500px] shrink-0 p-5 sm:p-6 md:p-8 rounded-2xl bg-surface-light border border-white/5 hover:border-white/10 transition-colors duration-300"
+            className="w-[300px] sm:w-[400px] md:w-[500px] shrink-0 p-5 sm:p-6 md:p-8 rounded-2xl bg-surface-light border border-foreground/5 hover:border-foreground/10 transition-colors duration-300"
             aria-hidden={i >= items.length ? true : undefined}
           >
             <blockquote>

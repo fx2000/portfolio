@@ -145,7 +145,7 @@ export default function Hero() {
             download="DanielDuqueCV.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="magnetic-btn px-8 py-3.5 border border-white/20 hover:border-white/40 text-foreground text-sm font-medium rounded-full transition-all duration-300 tracking-wide hover:bg-white/5"
+            className="magnetic-btn px-8 py-3.5 border border-foreground/20 hover:border-foreground/40 text-foreground text-sm font-medium rounded-full transition-all duration-300 tracking-wide hover:bg-foreground/5"
           >
             Download resume
           </a>

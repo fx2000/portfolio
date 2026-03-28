@@ -403,9 +403,9 @@ export const projects: Project[] = [
     id: 14,
     title: "AI Portfolio",
     description:
-      "This portfolio site — an AI-powered interactive experience built with Next.js 16, featuring a conversational AI assistant that can control the website in real time, voice chat with natural TTS, live code sandboxes, smart navigation, and hidden easter eggs.",
+      "This portfolio site — an AI-powered interactive experience built with Next.js 16, featuring a conversational AI assistant that can control the website in real time, voice chat with natural TTS, live code sandboxes, a real-time collaborative whiteboard, smart navigation, and hidden easter eggs.",
     contributions:
-      "Architected and built the entire AI interaction layer: a command system that lets the chatbot change colors, trigger visual effects (fireworks, confetti, snow, matrix rain, disco mode), navigate to sections, and highlight projects. Implemented voice chat with Web Speech API for STT and Google Cloud TTS for natural speech output. Built a live code sandbox with iframe-based execution. Created the WarGames easter egg that launches playable DOOM in the browser via js-dos. Designed a tailored pitch system that generates custom responses for recruiters and offers resume downloads. All powered by Google Gemini 2.5 Flash with a sophisticated prompt engineering layer.",
+      "Architected and built the entire AI interaction layer: a command system that lets the chatbot change colors, trigger visual effects (fireworks, confetti, snow, matrix rain, disco mode), navigate to sections, and highlight projects. Implemented voice chat with Web Speech API for STT and Google Cloud TTS for natural speech output. Built a live code sandbox with iframe-based execution. Created a real-time collaborative whiteboard using Supabase Realtime with shape tools (draw, rectangle, circle, arrow, line, text), live cursor tracking with user names, selection/move, undo, and PNG export. Created the WarGames easter egg that launches playable DOOM in the browser via js-dos. Designed a tailored pitch system that generates custom responses for recruiters and offers resume downloads. All powered by Google Gemini 2.5 Flash with a sophisticated prompt engineering layer.",
     technologies: [
       "TypeScript",
       "React",
@@ -413,6 +413,7 @@ export const projects: Project[] = [
       "Gemini API",
       "Google Cloud TTS",
       "Web Speech API",
+      "Supabase Realtime",
       "GSAP",
       "Tailwind CSS",
       "js-dos",
@@ -420,7 +421,7 @@ export const projects: Project[] = [
     ],
     company: "Personal Project",
     about:
-      "A portfolio site that doubles as an AI capabilities demo. The conversational AI assistant (powered by Gemini 2.5 Flash) doesn't just answer questions — it controls the website in real time through a custom command system. Visitors can ask it to change the site's colors, throw fireworks, navigate to projects, show live code demos, play DOOM, or generate tailored pitches. Voice chat enables hands-free interaction with natural text-to-speech. The entire site was built through an AI-assisted workflow using Claude Code, with Daniel directing architecture and design decisions.",
+      "A portfolio site that doubles as an AI capabilities demo. The conversational AI assistant (powered by Gemini 2.5 Flash) doesn't just answer questions — it controls the website in real time through a custom command system. Visitors can ask it to change the site's colors, throw fireworks, navigate to projects, show live code demos, play DOOM, or generate tailored pitches. Voice chat enables hands-free interaction with natural text-to-speech. A real-time collaborative whiteboard lets visitors draw together with shape tools, live cursors, and presence tracking via Supabase Realtime. The entire site was built through an AI-assisted workflow using Claude Code, with Daniel directing architecture and design decisions.",
     client: "Daniel Duque",
     role: "Creator & Developer",
     pImg: "/images/projects/portfolio/homepage.png",

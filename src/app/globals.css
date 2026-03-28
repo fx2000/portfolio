@@ -13,6 +13,29 @@
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
+html.light {
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --color-muted: #555555;
+  --color-dim: #aaaaaa;
+  --color-surface: #e8e8e8;
+  --color-surface-light: #dcdcdc;
+  --color-border: #cccccc;
+  --tw-shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+html.light .shadow-lg {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+html.light .shadow-xl {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+html.light .shadow-2xl {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
 html {
   scroll-behavior: auto;
 }
