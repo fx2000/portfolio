@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 
 const ChatWidget = dynamic(() => import("@/components/ChatWidget"));
 const EffectsOverlay = dynamic(() => import("@/components/EffectsOverlay"));
+const WhiteboardButton = dynamic(() => import("@/components/WhiteboardButton"));
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
       <Footer />
       <ChatWidget />
       <EffectsOverlay />
+      <WhiteboardButton />
     </>
   );
 }
