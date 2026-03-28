@@ -425,7 +425,7 @@ export const projects: Project[] = [
     role: "Creator & Developer",
     pImg: "/images/projects/portfolio/homepage.png",
     pImgAlt: "AI Portfolio - Interactive AI-powered portfolio site",
-    url: "https://duque.ai",
+    url: "https://github.com/fx2000/portfolio",
     type: "company",
   },
 ];
