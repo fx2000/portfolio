@@ -233,6 +233,11 @@ This page was constructed by an agentic AI developer (Claude, running inside Cur
 - **Audio Player:** Inline audio demo player for showcasing project media (e.g. AI phone call demos)
 - **Frosted Glass Navigation:** Fixed navbar that transitions from transparent to a backdrop-blur glass effect on scroll, with a mobile hamburger menu
 - **Scroll-Triggered Animations:** Every section uses GSAP ScrollTrigger for entrance animations including fade-ins, staggered reveals, and counter animations
+- **Real-Time Collaborative Whiteboard:** A custom-built whiteboard tool using Supabase Realtime. Features shape tools (freehand draw, rectangle, circle, line, arrow, text), live cursor tracking with user names, color picker, selection/move, undo, and PNG export. Multiple visitors can draw together in real time with presence tracking
+- **Voice Chat:** Speech-to-text input via Web Speech API and natural text-to-speech responses via Google Cloud TTS (Journey-D neural voice)
+- **Interactive Code Sandbox:** AI-generated code renders in an editable textarea with a Run button that executes JavaScript in a sandboxed iframe
+- **AI-Tailored Pitch:** When recruiters describe a role, the chatbot generates a focused pitch and offers a resume download button
+- **DOOM Easter Egg:** A WarGames-inspired sequence that launches playable DOOM (1993) in the browser via js-dos WebAssembly emulator
 
 ### Development Process
 - The entire page was built through an AI-assisted workflow using Cursor IDE with Claude as the agentic developer

@@ -200,6 +200,77 @@ export default function FeaturedProjects() {
 
             const baseZClasses = ["z-30", "z-20", "z-10"];
 
+            // Special layout for AI Portfolio: image + text side by side, diagram full-width below
+            if (project.title === "AI Portfolio") {
+              return (
+                <div
+                  key={project.id}
+                  data-project-title={project.title}
+                  ref={(el) => {
+                    if (el) cardsRef.current[idx] = el;
+                  }}
+                  className="relative"
+                >
+                  {/* Top: details + image side by side */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-center">
+                    {/* Details */}
+                    <div className="project-details relative space-y-4 order-2 lg:order-1">
+                      <p className="text-xs uppercase tracking-[0.2em] text-accent">
+                        {project.company}
+                      </p>
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-muted">{project.role}</p>
+                      <p className="text-sm md:text-base text-foreground/75 leading-relaxed">
+                        {project.contributions}
+                      </p>
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-muted"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit project: ${project.title}`}
+                        className="group inline-flex items-center gap-2 text-sm text-accent hover:text-accent-light transition-colors duration-300 pt-1"
+                      >
+                        Visit project
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+                          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </a>
+                    </div>
+
+                    {/* Image */}
+                    <div className="project-image-wrap relative z-20 aspect-[16/10] lg:aspect-[4/3] pointer-events-none order-1 lg:order-2">
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden bg-surface-light pointer-events-auto">
+                        <Image
+                          src={project.pImg}
+                          alt={project.pImgAlt || project.title}
+                          fill
+                          className="object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.03]"
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Full-width architecture diagram below */}
+                  <div className="mt-10">
+                    <ArchitectureDiagram />
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <div
                 key={project.id}
@@ -297,11 +368,6 @@ export default function FeaturedProjects() {
                       type={project.media.type}
                       title={project.media.title}
                     />
-                  )}
-
-                  {/* Architecture diagram for AI Portfolio */}
-                  {project.title === "AI Portfolio" && (
-                    <ArchitectureDiagram />
                   )}
 
                   <a
