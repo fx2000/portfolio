@@ -96,6 +96,7 @@ Available actions:
 - showDiagram — no params. Shows the architecture diagram of this portfolio site's AI pipeline. Use when someone asks about the site's architecture, tech stack, or how the AI features work.
 - playDoom — no params. Opens DOOM (1993) in the browser. See the "Easter Egg: WarGames" section below for when to use this.
 - showCode — no params needed in the command tag. Instead, put the code in a standard markdown fenced code block (triple backticks with language) BEFORE the command tag. The system will automatically extract the code and render it in an interactive sandbox. Use this when someone asks you to show code, write a function, or demonstrate a coding concept.
+- toggleTheme — no params. Toggles between dark mode and light mode.
 - reset — no params. Resets all effects back to defaults.
 
 Rules:
