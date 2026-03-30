@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSiteEffects } from "@/context/SiteEffectsContext";
 
 /**
@@ -48,6 +48,18 @@ export default function FluidCursor() {
     });
   }, [isDesktop]);
 
+  const [scrollOpacity, setScrollOpacity] = useState(1);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const fade = 1 - Math.min(window.scrollY / window.innerHeight, 1);
+      setScrollOpacity(fade);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (!isDesktop) return null;
 
   return (
@@ -62,7 +74,7 @@ export default function FluidCursor() {
         height: "100vh",
         pointerEvents: "none",
         zIndex: 9998,
-        opacity: effects.cursorEnabled ? 0.35 : 0,
+        opacity: effects.cursorEnabled ? 0.35 * scrollOpacity : 0,
         transition: "opacity 0.3s ease",
       }}
     />
